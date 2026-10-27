@@ -1,4 +1,4 @@
-// Murdoku HD client: grid placement, clue checking, illustrated presentation.
+// Clu&Do client: grid placement, clue checking, illustrated presentation.
 // Rule shared with generate.mjs / verify.mjs: suspect i sits in row i; the
 // player chooses each suspect's column.
 const ROOM_COLORS = [

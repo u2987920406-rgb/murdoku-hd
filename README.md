@@ -1,6 +1,6 @@
-# Murdoku HD
+# Clu&Do
 
-Illustrated client for the Murdoku deduction puzzle: same twelve cases and rules
+Illustrated client for the Murdoku deduction puzzle (published as Clu&Do): same twelve cases and rules
 as `~/projets/murdoku`, with vector character portraits, an illustrated
 floorplan, a victim file photo and a motion layer. No build step, no
 dependencies, no external fonts or images.
