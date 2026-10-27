@@ -67,6 +67,8 @@ img { max-width: 100%; }
 .brand { display: flex; gap: 16px; align-items: center; min-width: 0; }
 .brand-emblem { width: 64px; height: 64px; flex: none; filter: drop-shadow(0 4px 6px rgba(94, 20, 32, .3)); }
 .brand-text { min-width: 0; }
+/* The wordmark only shows on phones, where the full header block is hidden. */
+.brand-word { display: none; }
 .kicker {
   margin: 0;
   font-size: 16px;
@@ -659,8 +661,8 @@ select:focus-visible, .btn:focus-visible, .suspect:focus-visible { outline: 3px 
 @media (max-width: 860px) {
   :root {
     --head-h: 58px;
-    --rail-h: 68px;
-    --bar-h: 56px;
+    --rail-h: 62px;
+    --bar-h: 52px;
     --gap: 6px;
     --pad: 6px;
     --safe-t: env(safe-area-inset-top, 0px);
@@ -701,8 +703,17 @@ select:focus-visible, .btn:focus-visible, .suspect:focus-visible { outline: 3px 
     border-top-width: 4px;
   }
   .masthead::after { left: var(--pad); right: var(--pad); }
-  .brand { flex: none; gap: 0; align-items: center; }
+  .brand { flex: none; gap: 8px; align-items: center; }
   .brand-emblem { width: 40px; height: 40px; }
+  .brand-word {
+    display: inline-block;
+    font-family: Georgia, 'Noto Serif', serif;
+    font-weight: 700;
+    font-size: 19px;
+    letter-spacing: .01em;
+    color: var(--accent-deep);
+    white-space: nowrap;
+  }
   .brand-text, .case-switch label {
     position: absolute;
     width: 1px;
@@ -838,6 +849,12 @@ select:focus-visible, .btn:focus-visible, .suspect:focus-visible { outline: 3px 
     transform: translateY(calc(100% - var(--peek-px)));
     will-change: transform;
   }
+  /* Short phones: tighten the chrome so the peek can still show a tally plus
+     the first clue without covering the action bar. */
+  @media (max-height: 780px) {
+    :root { --head-h: 56px; --bar-h: 52px; --rail-h: 58px; --gap: 2px; }
+  }
+
   .sheet.is-full { transform: translateY(0); }
 
   /* Peek shows one whole clue plus an explicit affordance: a sentence must
@@ -852,16 +869,14 @@ select:focus-visible, .btn:focus-visible, .suspect:focus-visible { outline: 3px 
     color: var(--accent-deep);
   }
   .sheet-more:empty { display: none; }
+  .sheet-more[hidden] { display: none; }
   .sheet.is-peek #pane-clues .sheet-more { display: block; }
-  /* Short phones: the peek must still show the whole hint line. */
-  @media (max-height: 820px) {
-    .sheet { --peek-px: 212px; }
-  }
+
   .sheet.is-closed { transform: translateY(calc(100% - var(--head-px) - var(--safe-b))); }
   /* Only snap changes animate; resizes and drags follow instantly. */
   .sheet.animate { transition: transform .38s cubic-bezier(.2, .9, .3, 1); }
 
-  .sheet-head { flex: none; padding: 6px 10px 8px; touch-action: none; user-select: none; cursor: grab; }
+  .sheet-head { flex: none; padding: 4px 10px 6px; touch-action: none; user-select: none; cursor: grab; }
   .sheet-grip { display: block; width: 44px; height: 5px; margin: 0 auto 6px; border-radius: 3px; background: var(--line-strong); }
   .sheet-bar { display: flex; align-items: center; gap: 8px; }
   .sheet-tabs { display: flex; gap: 6px; flex: 1 1 auto; min-width: 0; }

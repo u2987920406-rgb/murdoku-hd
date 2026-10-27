@@ -274,6 +274,10 @@ function renderBoardStatus() {
   if (bad) parts.push(`${bad} erroné${bad > 1 ? 's' : ''} ✗`);
   if (left) parts.push(`${left} à placer`);
   status.textContent = parts.join(' · ');
+
+  // With a tally in the sheet head, the "1 / N" hint no longer fits the peek.
+  const more = document.querySelector('#pane-clues .sheet-more');
+  if (more) more.hidden = good + bad > 0;
 }
 
 function renderRoomLegend() {
@@ -417,12 +421,13 @@ function syncPeekHeight() {
     head.getBoundingClientRect().height +
     (more ? more.getBoundingClientRect().height : 0) +
     (firstClue ? firstClue.getBoundingClientRect().height : 0) +
-    16,
+    4,
   );
-  // The peek is exactly what the content needs: a taller sheet would only add
-  // empty space under the first clue. The spacer follows so the board grows.
+  // The peek must equal the space reserved under the action bar (the layout
+  // contract) and must never be shorter than the first clue needs.
+  const space = el('sheet-space') ? el('sheet-space').offsetHeight : 0;
   const ceiling = Math.round(window.innerHeight * 0.62);
-  const peek = Math.min(content, ceiling);
+  const peek = Math.min(Math.max(content, space), ceiling);
   sheet.style.setProperty('--peek-px', `${peek}px`);
 }
 
