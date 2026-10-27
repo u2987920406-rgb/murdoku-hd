@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4eee3">
+<title>Murdoku HD — affaires de déduction</title>
+<link rel="icon" href="assets/ui/emblem.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="brand">
+    <img class="brand-emblem" src="assets/ui/emblem.svg" alt="" width="64" height="64">
+    <div class="brand-text">
+      <p class="kicker">Brigade criminelle · Archives</p>
+      <h1>Murdoku</h1>
+      <p class="brand-sub">Un suspect par rangée, un par colonne. Trouvez qui est resté seul avec le corps.</p>
+    </div>
+  </div>
+  <div class="case-switch">
+    <label for="case-select">Affaire</label>
+    <select id="case-select"></select>
+    <button id="next-case" class="btn ghost" type="button">Suivante</button>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="panel case-panel" aria-label="Dossier de l'affaire">
+    <div class="eyebrow-row">
+      <p class="case-eyebrow" id="case-meta">Facile · grille 5×5</p>
+      <span class="stamp" id="case-badge">En cours</span>
+    </div>
+    <h2 id="case-title">Affaire n°1</h2>
+    <p class="story" id="case-story"></p>
+    <figure class="victim-card" id="victim-card">
+      <div class="victim-photo">
+        <img id="victim-photo" src="assets/victims/rousseau.svg" alt="" width="164" height="164">
+      </div>
+      <figcaption>
+        <span class="victim-label">Victime</span>
+        <strong id="victim-name">Madame Rousseau</strong>
+        <span id="victim-room">dans le Salon</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="panel board-panel" aria-label="Scène de crime">
+    <div class="play">
+      <div class="stage">
+        <div class="board-wrap">
+          <div class="board" id="board">
+            <div class="plan" id="plan"></div>
+            <div class="cells" id="cells" role="group" aria-label="Plan de la maison"></div>
+          </div>
+        </div>
+        <div class="room-legend" id="room-legend"></div>
+        <p class="board-status" id="board-status" role="status" hidden></p>
+      </div>
+
+      <div class="roster">
+        <div class="palette-head">
+          <h3>Invités</h3>
+          <p class="hint" id="palette-hint">Sélectionnez un invité puis une case.</p>
+        </div>
+        <div class="palette" id="palette"></div>
+
+        <div class="actions">
+          <button id="btn-check" class="btn primary" type="button">Vérifier</button>
+          <button id="btn-hint" class="btn" type="button">Indice</button>
+          <span class="more-actions" id="more-actions">
+            <button id="btn-reveal" class="btn ghost" type="button">Solution</button>
+            <button id="btn-reset" class="btn ghost" type="button">Effacer</button>
+            <button id="btn-next-m" class="btn ghost mobile-only" type="button">Suivante</button>
+          </span>
+          <button id="btn-more" class="btn more-toggle mobile-only" type="button" aria-expanded="false" aria-controls="more-actions" aria-label="Plus d'actions">⋯</button>
+        </div>
+        <div class="verdict" id="verdict" role="status" aria-live="polite" hidden></div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="panel clues-panel" aria-label="Indices de l'enquête">
+    <div class="clues-head">
+      <h2 class="panel-title">Témoignages</h2>
+      <span class="clue-count" id="clue-count">4 pièces</span>
+    </div>
+    <ol class="clues" id="clues"></ol>
+    <div class="legend">
+      <h3>Rappel des règles</h3>
+      <ul>
+        <li>Chaque invité occupe une case libre de sa rangée : la rangée 1 est celle du premier invité, et ainsi de suite.</li>
+        <li>Jamais deux invités sur la même rangée ni la même colonne.</li>
+        <li>La pièce du corps contient exactement un invité : c'est le coupable.</li>
+        <li>Une seule grille gagne : chaque affaire a une solution unique, vérifiée par énumération.</li>
+        <li>« Vérifier » coche les placements justes (✓) et signale les faux (✗).</li>
+      </ul>
+    </div>
+  </aside>
+  <div class="sheet-space" id="sheet-space" aria-hidden="true"></div>
+</main>
+<footer class="footer">Généré en local — 12 affaires, une seule grille gagnante par affaire, prouvée par énumération exhaustive (voir verify.mjs).</footer>
+
+<!-- Phone bottom sheet: app.js moves the dossier, clues, rules and tally in here under 860 px. -->
+<section class="sheet mobile-only is-peek" id="sheet" aria-label="Enquête">
+  <div class="sheet-head" id="sheet-head">
+    <span class="sheet-grip" aria-hidden="true"></span>
+    <div class="sheet-bar">
+      <div class="sheet-tabs" role="tablist" aria-label="Volets de l'enquête">
+        <button type="button" role="tab" id="tab-clues" aria-controls="pane-clues" aria-selected="true">Témoignages <span class="tab-count" id="tab-count">4</span></button>
+        <button type="button" role="tab" id="tab-dossier" aria-controls="pane-dossier" aria-selected="false" tabindex="-1">Dossier</button>
+      </div>
+      <button type="button" class="sheet-toggle" id="sheet-toggle" aria-expanded="false" aria-controls="sheet-body" aria-label="Agrandir le volet">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="sheet-tally" id="slot-tally"></div>
+  </div>
+  <div class="sheet-body" id="sheet-body">
+    <div role="tabpanel" id="pane-clues" aria-labelledby="tab-clues"></div>
+    <div role="tabpanel" id="pane-dossier" aria-labelledby="tab-dossier" hidden></div>
+  </div>
+</section>
+
+<div class="win-banner" id="win-banner" role="dialog" aria-modal="true" aria-labelledby="win-title" hidden>
+  <div class="win-card">
+    <div class="win-portrait">
+      <div class="spot" aria-hidden="true"></div>
+      <img id="win-photo" src="assets/portraits/etienne.svg" alt="" width="164" height="164">
+      <span class="win-stamp" aria-hidden="true">Coupable</span>
+    </div>
+    <p class="win-eyebrow" id="win-eyebrow">Énigme résolue</p>
+    <p class="win-title" id="win-title">Étienne, coupable</p>
+    <p class="win-detail" id="win-detail"></p>
+    <div class="win-actions">
+      <button type="button" class="btn primary" id="win-next">Affaire suivante</button>
+      <button type="button" class="btn ghost" id="win-close">Rester ici</button>
+    </div>
+  </div>
+</div>
+
+<script src="floorplan.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Murdoku HD scene driver</title>
+<style>html, body { margin: 0; height: 100%; overflow: hidden; } iframe { border: 0; width: 100%; height: 100%; display: block; }</style>
+</head>
+<body>
+<!-- Screenshot helper: ?case=8&scene=select|checked|solved drives the real page into a state. -->
+<iframe id="app" src="../index.html"></iframe>
+<script>
+(async () => {
+  const params = new URLSearchParams(location.search);
+  const index = Number(params.get('case') || 0);
+  const scene = params.get('scene') || 'checked';
+  const frame = document.getElementById('app');
+  await new Promise((resolve) => { frame.onload = resolve; });
+  const win = frame.contentWindow;
+  const doc = frame.contentDocument;
+  while (!doc.querySelector('.cell')) await new Promise((r) => setTimeout(r, 50));
+  const { cases } = await (await fetch('../cases.json')).json();
+  const puzzle = cases[index];
+  // &font=<css stack> re-renders the room plaques in another face (fallback / hostile checks).
+  if (params.get('font')) win.Floorplan.setLabelFont(params.get('font'));
+  win.loadCase(index);
+  const tap = (node) => node.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+  const put = (s, c) => { tap(doc.querySelectorAll('#palette .suspect')[s]); tap(doc.querySelector(`.cell[data-row="${s}"][data-col="${c}"]`)); };
+  if (scene === 'idle') {
+    // no placement: the bare plan
+  } else if (scene === 'select') {
+    for (let s = 0; s < 2; s++) put(s, puzzle.solution[s]);
+    tap(doc.querySelectorAll('#palette .suspect')[2]);
+  } else {
+    for (let s = 0; s < puzzle.size; s++) {
+      const wrong = scene === 'checked' && s >= puzzle.size - 2;
+      put(s, wrong ? puzzle.solution[puzzle.size - 1 - (s - (puzzle.size - 2))] : puzzle.solution[s]);
+    }
+    tap(doc.getElementById('btn-check'));
+  }
+  if (params.get('scroll')) doc.querySelector(params.get('scroll')).scrollIntoView({ block: 'start' });
+  // Phone sheet / overflow states: &sheet=full|closed &tab=dossier &more=1 &dismiss=1
+  if (params.get('dismiss')) win.clearCelebration();
+  if (params.get('tab')) win.selectTab(params.get('tab'));
+  if (params.get('sheet')) win.setSheet(params.get('sheet'), false);
+  if (params.get('more')) win.setMoreMenu(true);
+})();
+</script>
+</body>
+</html>

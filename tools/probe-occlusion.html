@@ -1,0 +1,27 @@
+<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0"><pre id="audit-out">pending</pre><script>
+// Probe (informational, not pass/fail): share of each plaque's text box hidden under a placed portrait (solved grid).
+(async () => {
+  const out = []; const { cases } = await (await fetch('../cases.json')).json();
+  const f = document.createElement('iframe'); f.width = 412; f.height = 915; document.body.appendChild(f);
+  await new Promise(r => { f.onload = r; f.src = '../index.html'; });
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  while (!f.contentDocument.querySelector('.cell')) await sleep(50);
+  const d = f.contentDocument, w = f.contentWindow; let all = [];
+  for (let i = 0; i < cases.length; i++) {
+    w.loadCase(i); w.reveal(); await sleep(30);
+    const tokens = [...d.querySelectorAll('.cell .token')].map(t => t.getBoundingClientRect());
+    for (const tx of d.querySelectorAll('.room-tag text')) {
+      const b = tx.getBoundingClientRect(); let hit = 0, n = 0;
+      for (let y = 0; y < 8; y++) for (let x = 0; x < 30; x++) {
+        const px = b.left + (x + .5) * b.width / 30, py = b.top + (y + .5) * b.height / 8; n++;
+        if (tokens.some(t => Math.hypot(px - (t.left + t.width / 2), py - (t.top + t.height / 2)) < t.width / 2)) hit++;
+      }
+      all.push({ c: i + 1, room: tx.closest('.room-tag').dataset.room, pct: 100 * hit / n });
+    }
+  }
+  const hidden = all.filter(a => a.pct > 0).sort((a, b) => b.pct - a.pct);
+  out.push(`412×915 solved grids: ${all.length} label lines, ${hidden.length} partly under a portrait, ${all.filter(a => a.pct >= 25).length} with ≥ 25 % hidden, worst ${hidden[0] ? hidden[0].pct.toFixed(0) : 0} %`);
+  hidden.slice(0, 12).forEach(a => out.push(`  case ${a.c} ${a.room}: ${a.pct.toFixed(0)} % of the text box under a portrait`));
+  document.getElementById('audit-out').textContent = out.join('\n');
+})();
+</script></body></html>
