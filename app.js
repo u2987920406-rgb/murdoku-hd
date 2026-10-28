@@ -1,4 +1,4 @@
-// Clu&Do client: grid placement, clue checking, illustrated presentation.
+// Clu&doku client: grid placement, clue checking, illustrated presentation.
 // Free placement: any guest may stand on any free cell, one per row and one per
 // column. A grid wins when every clue holds and exactly one guest stands in the
 // victim's room (clues.js, the same parser verify-free.mjs runs offline).

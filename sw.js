@@ -1,8 +1,8 @@
-// Clu&Do service worker: cache-first app shell, so the game installs and plays
+// Clu&doku service worker: cache-first app shell, so the game installs and plays
 // offline after the first visit. Bump VERSION whenever a shipped file changes:
 // the new worker re-caches everything, takes over at once (skipWaiting +
 // clients.claim) and deletes the previous cache.
-const VERSION = 'cludo-v1';
+const VERSION = 'cludoku-v1';
 
 const SHELL = [
   './',

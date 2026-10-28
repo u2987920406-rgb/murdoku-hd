@@ -1,6 +1,6 @@
-# Clu&Do
+# Clu&doku
 
-Illustrated deduction puzzle (published as Clu&Do), grown from the Murdoku base
+Illustrated deduction puzzle (published as Clu&doku), grown from the Murdoku base
 app in `~/projets/murdoku`: vector character portraits, an illustrated
 floorplan, a victim file photo and a motion layer. Twelve cases (4 × 6 guests,
 4 × 7, 4 × 8), each with exactly one winning grid under free placement. No build
