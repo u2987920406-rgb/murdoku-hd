@@ -24,7 +24,7 @@
   if (params.get('font')) win.Floorplan.setLabelFont(params.get('font'));
   win.loadCase(index);
   const tap = (node) => node.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-  const put = (s, c) => { tap(doc.querySelectorAll('#palette .suspect')[s]); tap(doc.querySelector(`.cell[data-row="${s}"][data-col="${c}"]`)); };
+  const put = (s, [r, c]) => { tap(doc.querySelectorAll('#palette .suspect')[s]); tap(doc.querySelector(`.cell[data-row="${r}"][data-col="${c}"]`)); };
   if (scene === 'idle') {
     // no placement: the bare plan
   } else if (scene === 'select') {
@@ -33,6 +33,7 @@
   } else {
     for (let s = 0; s < puzzle.size; s++) {
       const wrong = scene === 'checked' && s >= puzzle.size - 2;
+      // The last two guests trade places.
       put(s, wrong ? puzzle.solution[puzzle.size - 1 - (s - (puzzle.size - 2))] : puzzle.solution[s]);
     }
     tap(doc.getElementById('btn-check'));

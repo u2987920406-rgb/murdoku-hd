@@ -1,6 +1,7 @@
 // Clu&Do client: grid placement, clue checking, illustrated presentation.
-// Rule shared with generate.mjs / verify.mjs: suspect i sits in row i; the
-// player chooses each suspect's column.
+// Free placement: any guest may stand on any free cell, one per row and one per
+// column. A grid wins when every clue holds and exactly one guest stands in the
+// victim's room (clues.js, the same parser verify-free.mjs runs offline).
 const ROOM_COLORS = [
   '#f0c2a2', '#c4dfb4', '#bfd2ee', '#ecd596',
   '#d8bde6', '#ade0dc', '#f0bccb', '#ddd3b0',
@@ -29,8 +30,9 @@ const state = {
   marks: [], // per suspect: null (unchecked) | true (correct) | false (wrong)
   freshMarks: false, // animate marks only on the render right after a check
   popped: null, // suspect whose portrait should pop on the next render
-  nudgeRow: null, // row to wiggle after a placement outside the suspect's row
   sheet: 'peek', // phone bottom sheet snap: 'closed' | 'peek' | 'full'
+  rules: [], // parsed clues of the case, plus the one-guest-with-the-body rule
+  grids: null, // every winning grid (positions), enumerated on first need
 };
 
 const prefersReducedMotion = () =>
@@ -107,6 +109,8 @@ function loadCase(index) {
   state.marks = puzzle.suspects.map(() => null);
   state.selected = null;
   state.revealed = false;
+  state.rules = [...window.Clues.parseCase(puzzle), window.Clues.victimRule(puzzle)];
+  state.grids = null;
   el('case-select').value = String(index);
   el('case-meta').textContent = `${puzzle.difficulty} · grille ${puzzle.size}×${puzzle.size} · ${puzzle.clues.length} témoignages`;
   el('case-title').textContent = `Affaire n°${index + 1}`;
@@ -115,9 +119,37 @@ function loadCase(index) {
   renderVictim();
   el('plan').innerHTML = window.Floorplan.render(puzzle, ROOM_COLORS);
   el('board').style.setProperty('--n', String(puzzle.size));
+  document.documentElement.style.setProperty('--n', String(puzzle.size)); // phone board sizing
   renderRoomLegend();
   renderClues();
+  renderCount();
   renderAll();
+}
+
+const frNumber = (value) => value.toLocaleString('fr-FR');
+const orList = (items) => (items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} ou ${items[items.length - 1]}`);
+
+// How many grids win, as counted offline by verify-free.mjs: the rules panel
+// and the footer say it as it is.
+function renderCount() {
+  const puzzle = current();
+  const count = puzzle.validPlacements;
+  const killers = puzzle.possibleKillers || [];
+  el('rule-count').textContent = count === 1
+    ? 'Une seule grille gagne : chaque affaire a une solution unique, vérifiée par énumération.'
+    : `${frNumber(count)} grilles respectent tous les témoignages (comptées par énumération) : n'importe laquelle gagne. ` +
+      (killers.length > 1 ? `Selon la grille, le coupable peut être ${orList(killers)}.` : `Le coupable est toujours ${killers[0]}.`);
+
+  const counts = state.cases.map((item) => item.validPlacements);
+  const unique = counts.filter((value) => value === 1).length;
+  const here = count === 1
+    ? `Affaire n°${state.index + 1} : une seule grille gagnante`
+    : `Affaire n°${state.index + 1} : ${frNumber(count)} grilles gagnantes`;
+  el('footer').textContent = unique === counts.length
+    ? `Généré en local — ${counts.length} affaires, une seule grille gagnante par affaire, prouvée par énumération exhaustive (voir verify-free.mjs).`
+    : `Généré en local — ${counts.length} affaires, ${unique === 0 ? "aucune n'a de grille unique" : `${unique} à grille unique`} ` +
+      `(de ${frNumber(Math.min(...counts))} à ${frNumber(Math.max(...counts))} grilles gagnantes selon l'affaire). ` +
+      `${here}, comptées par énumération exhaustive (voir verify-free.mjs).`;
 }
 
 function renderAll() {
@@ -126,7 +158,6 @@ function renderAll() {
   renderBadge();
   state.freshMarks = false;
   state.popped = null;
-  state.nudgeRow = null;
 }
 
 function renderBadge() {
@@ -193,7 +224,6 @@ function renderBoard() {
       cell.dataset.col = String(col);
       cell.title = puzzle.rooms[room].name;
       const roomName = puzzle.rooms[room].name;
-      const owner = puzzle.suspects[row];
 
       const isVictim = puzzle.victim.cell[0] === row && puzzle.victim.cell[1] === col;
       const occupant = suspectAt(row, col);
@@ -206,7 +236,7 @@ function renderBoard() {
           showVerdict(`Le corps de ${puzzle.victim.name} occupe cette case : personne ne peut s'y tenir.`, '');
         });
       } else if (occupant >= 0) {
-        const isKiller = state.celebrating && occupant === puzzle.killer.index;
+        const isKiller = state.celebrating && occupant === killerOf(state.placement);
         const extra = [state.popped === occupant ? 'pop' : '', isKiller ? 'killer' : ''].join(' ');
         cell.appendChild(makeToken(occupant, extra));
         cell.classList.add('occupied');
@@ -226,7 +256,7 @@ function renderBoard() {
           renderAll();
         });
       } else {
-        cell.setAttribute('aria-label', `Case libre, rangée ${row + 1} (${owner.name}) colonne ${col + 1}, ${roomName}`);
+        cell.setAttribute('aria-label', `Case libre, rangée ${row + 1} colonne ${col + 1}, ${roomName}`);
         cell.addEventListener('click', () => place(row, col));
       }
 
@@ -243,11 +273,7 @@ function renderBoard() {
         cell.setAttribute('aria-label', `${cell.getAttribute('aria-label')} — ${ok ? 'placement validé' : 'placement erroné'}`);
       }
 
-      if (state.selected !== null && row === state.selected) {
-        cell.classList.add('row-active');
-        if (!isVictim && occupant < 0) cell.classList.add('target');
-      }
-      if (state.nudgeRow === row) cell.classList.add('nudge');
+      if (state.selected !== null && !isVictim && occupant < 0) cell.classList.add('open');
       cells.appendChild(cell);
     }
   }
@@ -331,20 +357,12 @@ function renderPalette() {
     who.className = 'who';
     const name = document.createElement('strong');
     name.textContent = suspect.name;
-    const sub = document.createElement('span');
-    sub.className = 'sub';
-    const rowLabel = document.createElement('span');
-    rowLabel.textContent = `Rangée ${i + 1}`;
-    const status = document.createElement('span');
-    status.className = 'status';
-    status.textContent = state.placement[i] ? agree(suspect.gender, 'placé') : 'à placer';
-    const sep = document.createElement('span');
-    sep.className = 'sep';
-    sep.textContent = ' · ';
-    sub.append(rowLabel, sep, status);
-    who.append(name, sub);
+    who.append(name);
 
     button.append(avatar, who);
+    // The roster shows the name only; the placed state is the ✓ badge, and
+    // screen readers get it in words.
+    button.setAttribute('aria-label', `${suspect.name}, ${state.placement[i] ? agree(suspect.gender, 'placé') : 'à placer'}`);
     button.setAttribute('aria-pressed', state.selected === i ? 'true' : 'false');
     button.addEventListener('click', () => {
       state.selected = state.selected === i ? null : i;
@@ -358,7 +376,7 @@ function renderPalette() {
   const remaining = state.placement.filter((slot) => slot === null).length;
   el('palette-hint').textContent = remaining === 0
     ? 'Tous les invités sont placés — vérifiez votre déduction.'
-    : `Sélectionnez un invité puis une case de sa rangée (${remaining} restant${remaining > 1 ? 's' : ''}). Un pion posé se retire en cliquant dessus.`;
+    : `Sélectionnez un invité puis n'importe quelle case libre (${remaining} restant${remaining > 1 ? 's' : ''}). Un pion posé se retire en cliquant dessus.`;
 }
 
 // Clue text is rendered verbatim; suspect names only gain a decorative
@@ -399,6 +417,7 @@ function renderClues() {
   const pane = el('pane-clues');
   if (pane) {
     const total = puzzle.clues.length;
+    pane.querySelectorAll('.sheet-more').forEach((node) => node.remove()); // one hint, for this case
     const more = document.createElement('p');
     more.className = 'sheet-more';
     more.textContent = total > 1 ? `1 / ${total} · toucher pour la suite` : '';
@@ -449,13 +468,7 @@ function place(row, col) {
   if (state.selected === null) {
     const occupant = suspectAt(row, col);
     if (occupant >= 0) { state.placement[occupant] = null; renderAll(); return; }
-    state.selected = row; // an empty cell belongs to its row's guest
-  }
-  if (state.selected !== row) {
-    const suspect = puzzle.suspects[state.selected];
-    state.nudgeRow = state.selected;
-    showVerdict(`${suspect.name} se trouvait sur la rangée ${state.selected + 1} : choisissez une case de cette rangée.`, '');
-    renderAll();
+    showVerdict(`Choisissez d'abord un invité parmi les ${puzzle.size}, puis sa case.`, '');
     return;
   }
   clearMarks();
@@ -474,11 +487,65 @@ function place(row, col) {
 
 function aloneWord(gender) { return gender === 'f' ? 'seule' : 'seul'; }
 
-function isCorrectSlot(slot, i) {
-  return Boolean(slot) && slot.row === i && slot.col === current().solution[i];
+// ---------------------------------------------------------------- validation
+// A grid is judged by the clues alone, never against a stored arrangement.
+function positions(placement) {
+  const n = current().size;
+  return placement.map((slot) => (slot ? slot.row * n + slot.col : -1));
 }
 
-function isCorrect() { return state.placement.every(isCorrectSlot); }
+function winningGrids() {
+  if (!state.grids) {
+    state.grids = window.Clues.solve(current());
+    const expected = current().validPlacements;
+    if (expected !== undefined && expected !== state.grids.length) {
+      console.warn(`Affaire ${current().id}: ${state.grids.length} grilles trouvées, ${expected} attendues (verify-free.mjs).`);
+    }
+  }
+  return state.grids;
+}
+
+// Clues (and the body rule) a complete placement breaks.
+function brokenRules(placement) {
+  const pos = positions(placement);
+  return state.rules.filter((rule) => !rule.test(pos));
+}
+
+function isWin(placement) {
+  return placement.every(Boolean) && brokenRules(placement).length === 0;
+}
+
+// ✓ when at least one winning grid puts this guest on this cell: the mark
+// depends on the guest's own cell only, never on where the others stand.
+function isPossibleSlot(slot, i) {
+  const p = positions([slot])[0];
+  return winningGrids().some((grid) => grid[i] === p);
+}
+
+// The guest alone in the victim's room, or -1.
+function killerOf(placement) {
+  const inRoom = placement
+    .map((slot, i) => (slot && roomOf(slot.row, slot.col) === current().victim.room ? i : -1))
+    .filter((i) => i >= 0);
+  return inRoom.length === 1 ? inRoom[0] : -1;
+}
+
+// The winning grid that keeps the most of the player's guests where they are.
+function closestGrid() {
+  const pos = positions(state.placement);
+  let best = null;
+  let bestScore = -1;
+  for (const grid of winningGrids()) {
+    const score = grid.reduce((sum, p, i) => sum + (p === pos[i] ? 1 : 0), 0);
+    if (score > bestScore) { best = grid; bestScore = score; }
+  }
+  return best;
+}
+
+function slotOf(p) {
+  const n = current().size;
+  return { row: Math.floor(p / n), col: p % n };
+}
 
 function showVerdict(text, tone) {
   const box = el('verdict');
@@ -505,7 +572,7 @@ function keepBoardInView() {
 function check() {
   const puzzle = current();
   const placed = state.placement.filter(Boolean).length;
-  const marks = state.placement.map((slot, i) => (slot ? isCorrectSlot(slot, i) : null));
+  const marks = state.placement.map((slot, i) => (slot ? isPossibleSlot(slot, i) : null));
   state.marks = marks;
   state.freshMarks = true;
   const good = marks.filter((mark) => mark === true).length;
@@ -524,32 +591,45 @@ function check() {
     return;
   }
 
-  if (isCorrect()) {
+  if (isWin(state.placement)) {
     const firstTime = !state.solved.has(puzzle.id);
+    const killer = puzzle.suspects[killerOf(state.placement)];
     state.solved.add(puzzle.id);
     state.celebrating = true;
     renderAll();
+    const others = puzzle.validPlacements > 1
+      ? ` Votre grille respecte tous les témoignages (une des ${frNumber(puzzle.validPlacements)} possibles).`
+      : '';
     showVerdict(
-      `Affaire résolue. ${puzzle.killer.name} se trouvait ${aloneWord(puzzle.killer.gender)} ${puzzle.victim.loc} avec ${puzzle.victim.name} : c'est le coupable.`,
+      `Affaire résolue. ${killer.name} se trouvait ${aloneWord(killer.gender)} ${puzzle.victim.loc} avec ${puzzle.victim.name} : c'est le coupable.${others}`,
       'ok',
     );
-    celebrate(firstTime);
-  } else {
+    celebrate(firstTime, killerOf(state.placement));
+  } else if (bad > 0) {
     renderAll();
     keepBoardInView();
-    const wrongNames = state.placement
-      .map((slot, i) => (marks[i] === false ? puzzle.suspects[i].name : null))
-      .filter(Boolean);
+    const wrong = puzzle.suspects.filter((_, i) => marks[i] === false);
+    const pronoun = wrong.length > 1 ? 'les' : wrong[0].gender === 'f' ? 'la' : 'le';
     showVerdict(
-      `Solution unique : ${good} placement${good > 1 ? 's' : ''} validé${good > 1 ? 's' : ''} (✓) et ${bad} erroné${bad > 1 ? 's' : ''} (✗) — ${wrongNames.join(', ')}. ` +
+      `${good} placement${good > 1 ? 's' : ''} validé${good > 1 ? 's' : ''} (✓) et ${bad} erroné${bad > 1 ? 's' : ''} (✗) — ${wrong.map((s) => s.name).join(', ')} : aucune grille conforme aux témoignages ne ${pronoun} place là. ` +
       'Cliquez sur un pion pour le retirer, puis reposez-le ailleurs.',
+      'bad',
+    );
+  } else {
+    // Every cell is possible on its own, but not all together.
+    renderAll();
+    keepBoardInView();
+    const broken = brokenRules(state.placement);
+    const more = broken.length > 1 ? ` (et ${broken.length - 1} autre${broken.length > 2 ? 's' : ''})` : '';
+    showVerdict(
+      `Chaque invité est sur une case possible, mais pas tous ensemble : la grille contredit « ${broken[0].text.replace(/\.$/, '')} »${more}. Déplacez un invité.`,
       'bad',
     );
   }
 }
 
 // ---------------------------------------------------------------- celebration
-function celebrate(firstTime) {
+function celebrate(firstTime, killer) {
   const puzzle = current();
   const board = el('board');
   board.classList.remove('celebrate');
@@ -558,20 +638,21 @@ function celebrate(firstTime) {
   [...board.querySelectorAll('.token')].forEach((token, i) => {
     token.style.animationDelay = prefersReducedMotion() ? '0ms' : `${i * 70}ms`;
   });
-  showWinBanner(puzzle, firstTime);
+  showWinBanner(puzzle, firstTime, killer);
   if (!prefersReducedMotion()) spawnConfetti();
 }
 
-function showWinBanner(puzzle, firstTime) {
+function showWinBanner(puzzle, firstTime, index) {
   const banner = el('win-banner');
+  const killer = puzzle.suspects[index];
   el('win-eyebrow').textContent = firstTime ? 'Énigme résolue' : 'Grille validée';
-  el('win-title').textContent = `${puzzle.killer.name}, coupable`;
-  const alone = aloneWord(puzzle.killer.gender);
+  el('win-title').textContent = `${killer.name}, coupable`;
+  const alone = aloneWord(killer.gender);
   el('win-detail').textContent = `${alone[0].toUpperCase()}${alone.slice(1)} ${puzzle.victim.loc} avec ${puzzle.victim.name}.`;
   const photo = el('win-photo');
-  photo.src = portraitSrc(puzzle.killer.name);
-  photo.alt = `Portrait de ${puzzle.killer.name}`;
-  banner.style.setProperty('--ring', SUSPECT_COLORS[puzzle.killer.index % SUSPECT_COLORS.length]);
+  photo.src = portraitSrc(killer.name);
+  photo.alt = `Portrait de ${killer.name}`;
+  banner.style.setProperty('--ring', SUSPECT_COLORS[index % SUSPECT_COLORS.length]);
 
   banner.hidden = false;
   banner.classList.remove('visible');
@@ -623,35 +704,42 @@ function clearCelebration() {
   if (wasCelebrating && state.cases.length) renderBoard();
 }
 
+// Moves one guest to where the closest winning grid has them.
 function hint() {
   const puzzle = current();
   clearMarks();
-  const slots = state.placement.map((slot, i) => ({ slot, i }));
-  const wrong = slots.filter(({ slot, i }) => !isCorrectSlot(slot, i));
-  if (!wrong.length) { showVerdict('Tout est déjà juste : vérifiez.', 'ok'); return; }
+  if (isWin(state.placement)) { renderAll(); showVerdict('Tout est déjà juste : vérifiez.', 'ok'); return; }
+  const grid = closestGrid();
+  const pos = positions(state.placement);
+  const wrong = grid.map((p, i) => i).filter((i) => pos[i] !== grid[i]);
   const target = wrong[Math.floor(Math.random() * wrong.length)];
-  const row = target.i;
-  const col = puzzle.solution[row];
+  const { row, col } = slotOf(grid[target]);
   state.placement.forEach((slot, i) => {
     if (slot && (slot.row === row || slot.col === col)) state.placement[i] = null;
   });
-  state.placement[row] = { row, col };
+  state.placement[target] = { row, col };
   state.selected = null;
-  state.popped = row;
+  state.popped = target;
   renderAll();
-  const suspect = puzzle.suspects[row];
-  showVerdict(`Indice : ${suspect.name} est ${agree(suspect.gender, 'placé')} ${puzzle.rooms[puzzle.cells[row][col]].loc}.`, '');
+  const suspect = puzzle.suspects[target];
+  const where = puzzle.rooms[roomOf(row, col)].loc;
+  showVerdict(puzzle.validPlacements === 1
+    ? `Indice : ${suspect.name} est ${agree(suspect.gender, 'placé')} ${where}.`
+    : `Indice : une grille gagnante place ${suspect.name} ${where}.`, '');
 }
 
+// Shows the winning grid closest to the player's own placement.
 function reveal() {
   const puzzle = current();
   clearMarks();
-  state.placement = puzzle.solution.map((col, row) => ({ row, col }));
+  state.placement = closestGrid().map(slotOf);
   state.selected = null;
   state.revealed = true;
   renderAll();
+  const killer = puzzle.suspects[killerOf(state.placement)];
+  const lead = puzzle.validPlacements > 1 ? `Une solution parmi ${frNumber(puzzle.validPlacements)}` : 'Solution';
   showVerdict(
-    `Solution : ${puzzle.killer.name} était ${aloneWord(puzzle.killer.gender)} ${puzzle.victim.loc} avec ${puzzle.victim.name}.`,
+    `${lead} : ${killer.name} était ${aloneWord(killer.gender)} ${puzzle.victim.loc} avec ${puzzle.victim.name}.`,
     'bad',
   );
 }
@@ -841,6 +929,14 @@ function bindSheet() {
   };
   head.addEventListener('pointerup', release);
   head.addEventListener('pointercancel', release);
+}
+
+// Installable, offline after the first visit. Only over https or on
+// localhost: a file:// open (or a plain-http LAN address) never registers.
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch((error) => console.warn('Service worker non enregistré :', error));
+  });
 }
 
 boot();

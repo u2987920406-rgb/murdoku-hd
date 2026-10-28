@@ -30,7 +30,7 @@ async function run() {
       const min = Math.min(...[...doc.querySelectorAll('.cell')].map((c) => Math.min(c.offsetWidth, c.offsetHeight)));
       worstCell = Math.min(worstCell, min);
     }
-    log(`[${width}px] smallest cell over all 12 cases: ${worstCell}px (7×7 cases included)`);
+    log(`[${width}px] smallest cell over all 12 cases: ${worstCell}px (largest grids included)`);
     if (worstCell < MIN_TARGET) fail(`${width}: cell ${worstCell}px`);
 
     // Idle state on the largest grid.
@@ -43,11 +43,12 @@ async function run() {
     win.loadCase(8);
     const placed = [];
     for (let s = 0; s < puzzle.size; s++) {
-      const col = s < 3 ? (puzzle.solution[s] + 1) % puzzle.size : puzzle.solution[s];
+      const [row, good] = puzzle.solution[s];
+      const col = s < 3 ? (good + 1) % puzzle.size : good;
       const [vr, vc] = puzzle.victim.cell;
-      if (vr === s && vc === col) continue;
+      if (vr === row && vc === col) continue;
       tap(doc, doc.querySelectorAll('#palette .suspect')[s]);
-      tap(doc, cellAt(doc, s, col));
+      tap(doc, cellAt(doc, row, col));
       placed.push(s);
     }
     tap(doc, doc.getElementById('btn-check'));
@@ -65,7 +66,7 @@ async function run() {
     win.loadCase(8);
     for (let s = 0; s < puzzle.size; s++) {
       tap(doc, doc.querySelectorAll('#palette .suspect')[s]);
-      tap(doc, cellAt(doc, s, puzzle.solution[s]));
+      tap(doc, cellAt(doc, ...puzzle.solution[s]));
     }
     tap(doc, doc.getElementById('btn-check'));
     await settle(frame);

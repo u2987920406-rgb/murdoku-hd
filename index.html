@@ -4,8 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f4eee3">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Clu&amp;Do">
 <title>Clu&amp;Do — affaires de déduction</title>
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="assets/ui/emblem.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -90,17 +96,18 @@
     <div class="legend">
       <h3>Rappel des règles</h3>
       <ul>
-        <li>Chaque invité occupe une case libre de sa rangée : la rangée 1 est celle du premier invité, et ainsi de suite.</li>
+        <li>Chaque invité peut occuper n'importe quelle case libre.</li>
+        <li>Le nord est en haut du plan, l'est à droite.</li>
         <li>Jamais deux invités sur la même rangée ni la même colonne.</li>
         <li>La pièce du corps contient exactement un invité : c'est le coupable.</li>
-        <li>Une seule grille gagne : chaque affaire a une solution unique, vérifiée par énumération.</li>
+        <li id="rule-count">Une seule grille gagne : chaque affaire a une solution unique, vérifiée par énumération.</li>
         <li>« Vérifier » coche les placements justes (✓) et signale les faux (✗).</li>
       </ul>
     </div>
   </aside>
   <div class="sheet-space" id="sheet-space" aria-hidden="true"></div>
 </main>
-<footer class="footer">Généré en local — 12 affaires, une seule grille gagnante par affaire, prouvée par énumération exhaustive (voir verify.mjs).</footer>
+<footer class="footer" id="footer">Généré en local — 12 affaires, une seule grille gagnante par affaire, prouvée par énumération exhaustive (voir verify-free.mjs).</footer>
 
 <!-- Phone bottom sheet: app.js moves the dossier, clues, rules and tally in here under 860 px. -->
 <section class="sheet mobile-only is-peek" id="sheet" aria-label="Enquête">
@@ -141,6 +148,7 @@
 </div>
 
 <script src="floorplan.js"></script>
+<script src="clues.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

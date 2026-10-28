@@ -1,199 +1,95 @@
 {
  "cases": [
   {
-   "id": "facile-5000",
-   "size": 5,
+   "id": "facile-6000",
+   "size": 6,
    "difficulty": "Facile",
    "rooms": [
     {
-     "name": "Cuisine",
-     "loc": "dans la Cuisine"
+     "name": "Salle à manger",
+     "loc": "dans la Salle à manger"
     },
     {
-     "name": "Salon",
-     "loc": "dans le Salon"
+     "name": "Atelier",
+     "loc": "dans l'Atelier"
+    },
+    {
+     "name": "Cave",
+     "loc": "dans la Cave"
+    },
+    {
+     "name": "Cuisine",
+     "loc": "dans la Cuisine"
     },
     {
      "name": "Bibliothèque",
      "loc": "dans la Bibliothèque"
     },
     {
-     "name": "Grenier",
-     "loc": "dans le Grenier"
-    },
-    {
-     "name": "Chambre",
-     "loc": "dans la Chambre"
+     "name": "Véranda",
+     "loc": "dans la Véranda"
     }
    ],
    "cells": [
     [
-     2,
-     2,
+     1,
+     1,
+     1,
+     1,
      0,
+     0
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
      0,
      0
     ],
     [
      2,
-     4,
-     0,
-     0,
-     3
+     2,
+     2,
+     2,
+     2,
+     5
     ],
     [
+     3,
      2,
      4,
-     0,
-     3,
-     3
+     5,
+     5,
+     5
     ],
     [
-     4,
-     4,
      3,
      3,
-     3
+     4,
+     4,
+     4,
+     5
     ],
     [
-     1,
-     1,
-     1,
-     1,
-     1
+     3,
+     3,
+     4,
+     4,
+     4,
+     5
     ]
    ],
    "suspects": [
-    {
-     "name": "Marc",
-     "gender": "m",
-     "initial": "M"
-    },
-    {
-     "name": "Inès",
-     "gender": "f",
-     "initial": "I"
-    },
-    {
-     "name": "Lucie",
-     "gender": "f",
-     "initial": "L"
-    },
-    {
-     "name": "Roxane",
-     "gender": "f",
-     "initial": "R"
-    },
-    {
-     "name": "Étienne",
-     "gender": "m",
-     "initial": "É"
-    }
-   ],
-   "victim": {
-    "name": "Madame Rousseau",
-    "label": "Salon",
-    "loc": "dans le Salon",
-    "cell": [
-     4,
-     1
-    ],
-    "room": 1
-   },
-   "solution": [
-    4,
-    1,
-    2,
-    3,
-    0
-   ],
-   "killer": {
-    "index": 4,
-    "name": "Étienne",
-    "gender": "m"
-   },
-   "clues": [
-    "Inès se trouvait juste à côté de Lucie.",
-    "Lucie se trouvait juste à côté de Roxane.",
-    "Roxane était à l'est d’Étienne.",
-    "Il y avait exactement 1 personne dans le Grenier."
-   ],
-   "story": "Le corps de Madame Rousseau a été retrouvé dans le Salon. 5 invités se trouvaient dans la maison cette nuit-là, chacun dans une pièce différente des autres sur sa rangée et sa colonne. Une seule personne se trouvait dans la pièce du crime.",
-   "number": 1
-  },
-  {
-   "id": "facile-5100",
-   "size": 5,
-   "difficulty": "Facile",
-   "rooms": [
-    {
-     "name": "Cuisine",
-     "loc": "dans la Cuisine"
-    },
-    {
-     "name": "Grenier",
-     "loc": "dans le Grenier"
-    },
-    {
-     "name": "Chambre",
-     "loc": "dans la Chambre"
-    },
-    {
-     "name": "Serre",
-     "loc": "dans la Serre"
-    },
-    {
-     "name": "Cave",
-     "loc": "dans la Cave"
-    }
-   ],
-   "cells": [
-    [
-     2,
-     4,
-     4,
-     0,
-     0
-    ],
-    [
-     2,
-     4,
-     4,
-     0,
-     3
-    ],
-    [
-     2,
-     1,
-     1,
-     1,
-     3
-    ],
-    [
-     2,
-     1,
-     3,
-     3,
-     3
-    ],
-    [
-     2,
-     1,
-     1,
-     1,
-     3
-    ]
-   ],
-   "suspects": [
-    {
-     "name": "Maud",
-     "gender": "f",
-     "initial": "M"
-    },
     {
      "name": "Victor",
      "gender": "m",
      "initial": "V"
+    },
+    {
+     "name": "Maud",
+     "gender": "f",
+     "initial": "M"
     },
     {
      "name": "Anaïs",
@@ -206,120 +102,169 @@
      "initial": "K"
     },
     {
-     "name": "Nadia",
+     "name": "Théo",
+     "gender": "m",
+     "initial": "T"
+    },
+    {
+     "name": "Camille",
      "gender": "f",
-     "initial": "N"
+     "initial": "C"
     }
    ],
    "victim": {
-    "name": "le notaire Vasseur",
-    "label": "Chambre",
-    "loc": "dans la Chambre",
+    "name": "Madame Rousseau",
+    "label": "Bibliothèque",
+    "loc": "dans la Bibliothèque",
     "cell": [
-     3,
-     0
+     5,
+     4
     ],
-    "room": 2
+    "room": 4
    },
    "solution": [
-    2,
-    4,
-    0,
-    1,
-    3
+    [
+     2,
+     0
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     0,
+     1
+    ],
+    [
+     5,
+     2
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     4,
+     5
+    ]
    ],
    "killer": {
-    "index": 2,
-    "name": "Anaïs",
-    "gender": "f"
+    "index": 3,
+    "name": "Karim",
+    "gender": "m"
    },
    "clues": [
-    "Karim se trouvait dans le Grenier.",
-    "Anaïs était à l'ouest de Karim.",
-    "Maud n'était pas juste à côté de Victor.",
-    "Il y avait exactement 1 personne dans la Serre."
+    "Théo et Camille étaient dans la même pièce.",
+    "Karim se trouvait sur la rangée la plus au sud.",
+    "Camille se trouvait sur la colonne la plus à l'est.",
+    "Anaïs se trouvait sur la rangée la plus au nord.",
+    "Théo était au nord de Camille.",
+    "Anaïs était à l'est de Victor.",
+    "Maud n'était pas dans l'Atelier.",
+    "Victor n'était pas dans l'Atelier."
    ],
-   "story": "Le corps de le notaire Vasseur a été retrouvé dans la Chambre. 5 invités se trouvaient dans la maison cette nuit-là, chacun dans une pièce différente des autres sur sa rangée et sa colonne. Une seule personne se trouvait dans la pièce du crime.",
-   "number": 2
+   "story": "Le corps de Madame Rousseau a été retrouvé dans la Bibliothèque. 6 invités se trouvaient dans la maison cette nuit-là, jamais deux sur la même rangée ni sur la même colonne. Une seule personne se trouvait dans la pièce du crime.",
+   "validPlacements": 1,
+   "possibleKillers": [
+    "Karim"
+   ],
+   "number": 1
   },
   {
-   "id": "facile-5200",
-   "size": 5,
+   "id": "facile-6097",
+   "size": 6,
    "difficulty": "Facile",
    "rooms": [
-    {
-     "name": "Bureau",
-     "loc": "dans le Bureau"
-    },
-    {
-     "name": "Salon",
-     "loc": "dans le Salon"
-    },
-    {
-     "name": "Chambre",
-     "loc": "dans la Chambre"
-    },
     {
      "name": "Hall",
      "loc": "dans le Hall"
     },
     {
+     "name": "Bureau",
+     "loc": "dans le Bureau"
+    },
+    {
+     "name": "Atelier",
+     "loc": "dans l'Atelier"
+    },
+    {
+     "name": "Grenier",
+     "loc": "dans le Grenier"
+    },
+    {
      "name": "Cuisine",
      "loc": "dans la Cuisine"
+    },
+    {
+     "name": "Cave",
+     "loc": "dans la Cave"
     }
    ],
    "cells": [
     [
-     0,
-     0,
-     4,
-     4,
-     4
-    ],
-    [
      3,
-     0,
+     3,
+     3,
      4,
      1,
      1
     ],
     [
      3,
-     3,
-     3,
-     1,
+     2,
+     4,
+     4,
+     4,
      1
     ],
     [
+     3,
      2,
      2,
      2,
-     1,
+     4,
      1
     ],
     [
+     3,
      2,
      2,
-     2,
-     1,
+     0,
+     4,
      1
+    ],
+    [
+     3,
+     0,
+     0,
+     0,
+     5,
+     5
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     5,
+     5
     ]
    ],
    "suspects": [
     {
+     "name": "Anaïs",
+     "gender": "f",
+     "initial": "A"
+    },
+    {
+     "name": "Lucie",
+     "gender": "f",
+     "initial": "L"
+    },
+    {
      "name": "Roxane",
      "gender": "f",
      "initial": "R"
-    },
-    {
-     "name": "Maud",
-     "gender": "f",
-     "initial": "M"
-    },
-    {
-     "name": "Victor",
-     "gender": "m",
-     "initial": "V"
     },
     {
      "name": "Camille",
@@ -330,24 +275,48 @@
      "name": "Nadia",
      "gender": "f",
      "initial": "N"
+    },
+    {
+     "name": "Karim",
+     "gender": "m",
+     "initial": "K"
     }
    ],
    "victim": {
-    "name": "Monsieur Aubert",
-    "label": "Chambre",
-    "loc": "dans la Chambre",
+    "name": "Madame Le Goff",
+    "label": "Hall",
+    "loc": "dans le Hall",
     "cell": [
-     3,
-     1
+     4,
+     2
     ],
-    "room": 2
+    "room": 0
    },
    "solution": [
-    0,
-    2,
-    3,
-    4,
-    1
+    [
+     4,
+     0
+    ],
+    [
+     0,
+     3
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     2,
+     5
+    ],
+    [
+     5,
+     1
+    ],
+    [
+     1,
+     2
+    ]
    ],
    "killer": {
     "index": 4,
@@ -355,35 +324,45 @@
     "gender": "f"
    },
    "clues": [
-    "Maud se trouvait juste à côté de Victor.",
-    "Victor se trouvait juste à côté de Camille.",
-    "Roxane était à l'ouest de Maud.",
-    "Roxane était à l'ouest de Nadia.",
-    "Il y avait exactement 1 personne dans la Cuisine."
+    "Il y avait exactement 3 personnes dans la Cuisine.",
+    "Anaïs se trouvait juste à côté de Nadia.",
+    "Camille se trouvait sur la colonne la plus à l'est.",
+    "Camille était au nord de Roxane.",
+    "Lucie était à l'est de Karim.",
+    "Anaïs était à l'ouest de Nadia.",
+    "Anaïs était au sud de Lucie."
    ],
-   "story": "Le corps de Monsieur Aubert a été retrouvé dans la Chambre. 5 invités se trouvaient dans la maison cette nuit-là, chacun dans une pièce différente des autres sur sa rangée et sa colonne. Une seule personne se trouvait dans la pièce du crime.",
-   "number": 3
+   "story": "Le corps de Madame Le Goff a été retrouvé dans le Hall. 6 invités se trouvaient dans la maison cette nuit-là, jamais deux sur la même rangée ni sur la même colonne. Une seule personne se trouvait dans la pièce du crime.",
+   "validPlacements": 1,
+   "possibleKillers": [
+    "Nadia"
+   ],
+   "number": 2
   },
   {
-   "id": "facile-5295",
-   "size": 5,
+   "id": "facile-6194",
+   "size": 6,
    "difficulty": "Facile",
    "rooms": [
+    {
+     "name": "Grenier",
+     "loc": "dans le Grenier"
+    },
     {
      "name": "Salle à manger",
      "loc": "dans la Salle à manger"
     },
     {
-     "name": "Véranda",
-     "loc": "dans la Véranda"
+     "name": "Hall",
+     "loc": "dans le Hall"
     },
     {
-     "name": "Cave",
-     "loc": "dans la Cave"
+     "name": "Cuisine",
+     "loc": "dans la Cuisine"
     },
     {
-     "name": "Salon",
-     "loc": "dans le Salon"
+     "name": "Chambre",
+     "loc": "dans la Chambre"
     },
     {
      "name": "Bureau",
@@ -392,550 +371,163 @@
    ],
    "cells": [
     [
+     2,
+     2,
+     2,
+     2,
      1,
-     1,
-     0,
-     0,
-     0
+     1
     ],
     [
+     5,
+     2,
+     2,
+     2,
      1,
-     1,
+     1
+    ],
+    [
+     5,
+     5,
+     2,
+     2,
+     3,
+     3
+    ],
+    [
+     5,
+     5,
+     5,
+     5,
+     5,
+     3
+    ],
+    [
+     0,
+     5,
+     0,
      0,
      0,
      4
     ],
     [
-     3,
-     3,
+     0,
+     0,
+     0,
      0,
      4,
-     4
-    ],
-    [
-     2,
-     3,
-     3,
-     4,
-     4
-    ],
-    [
-     2,
-     2,
-     2,
-     2,
      4
     ]
    ],
    "suspects": [
     {
-     "name": "Nadia",
+     "name": "Maud",
      "gender": "f",
-     "initial": "N"
-    },
-    {
-     "name": "Hélène",
-     "gender": "f",
-     "initial": "H"
-    },
-    {
-     "name": "Sofia",
-     "gender": "f",
-     "initial": "S"
-    },
-    {
-     "name": "Marc",
-     "gender": "m",
      "initial": "M"
     },
     {
-     "name": "Julien",
+     "name": "Camille",
+     "gender": "f",
+     "initial": "C"
+    },
+    {
+     "name": "Karim",
      "gender": "m",
-     "initial": "J"
+     "initial": "K"
+    },
+    {
+     "name": "Inès",
+     "gender": "f",
+     "initial": "I"
+    },
+    {
+     "name": "Théo",
+     "gender": "m",
+     "initial": "T"
+    },
+    {
+     "name": "Bastien",
+     "gender": "m",
+     "initial": "B"
     }
    ],
    "victim": {
     "name": "Madame Le Goff",
-    "label": "Cave",
-    "loc": "dans la Cave",
+    "label": "Chambre",
+    "loc": "dans la Chambre",
     "cell": [
-     3,
-     0
-    ],
-    "room": 2
-   },
-   "solution": [
-    1,
-    0,
-    4,
-    3,
-    2
-   ],
-   "killer": {
-    "index": 4,
-    "name": "Julien",
-    "gender": "m"
-   },
-   "clues": [
-    "Nadia n'était pas dans la Salle à manger.",
-    "Nadia était à l'est d’Hélène.",
-    "Sofia était à l'est de Marc.",
-    "Marc était à l'est de Julien."
-   ],
-   "story": "Le corps de Madame Le Goff a été retrouvé dans la Cave. 5 invités se trouvaient dans la maison cette nuit-là, chacun dans une pièce différente des autres sur sa rangée et sa colonne. Une seule personne se trouvait dans la pièce du crime.",
-   "number": 4
-  },
-  {
-   "id": "moyen-6001",
-   "size": 6,
-   "difficulty": "Moyen",
-   "rooms": [
-    {
-     "name": "Grenier",
-     "loc": "dans le Grenier"
-    },
-    {
-     "name": "Hall",
-     "loc": "dans le Hall"
-    },
-    {
-     "name": "Salon",
-     "loc": "dans le Salon"
-    },
-    {
-     "name": "Véranda",
-     "loc": "dans la Véranda"
-    },
-    {
-     "name": "Chambre",
-     "loc": "dans la Chambre"
-    },
-    {
-     "name": "Bibliothèque",
-     "loc": "dans la Bibliothèque"
-    }
-   ],
-   "cells": [
-    [
-     2,
-     2,
-     2,
-     2,
-     2,
-     2
-    ],
-    [
-     3,
-     3,
-     1,
-     1,
      4,
-     4
-    ],
-    [
-     3,
-     3,
-     1,
-     1,
-     1,
-     4
-    ],
-    [
-     0,
-     0,
-     0,
-     4,
-     4,
-     4
-    ],
-    [
-     0,
-     0,
-     0,
-     5,
-     5,
      5
-    ],
-    [
-     0,
-     0,
-     5,
-     5,
-     5,
-     5
-    ]
-   ],
-   "suspects": [
-    {
-     "name": "Étienne",
-     "gender": "m",
-     "initial": "É"
-    },
-    {
-     "name": "Camille",
-     "gender": "f",
-     "initial": "C"
-    },
-    {
-     "name": "Bastien",
-     "gender": "m",
-     "initial": "B"
-    },
-    {
-     "name": "Maud",
-     "gender": "f",
-     "initial": "M"
-    },
-    {
-     "name": "Inès",
-     "gender": "f",
-     "initial": "I"
-    },
-    {
-     "name": "Lucie",
-     "gender": "f",
-     "initial": "L"
-    }
-   ],
-   "victim": {
-    "name": "le notaire Vasseur",
-    "label": "Salon",
-    "loc": "dans le Salon",
-    "cell": [
-     0,
-     3
-    ],
-    "room": 2
-   },
-   "solution": [
-    5,
-    3,
-    2,
-    1,
-    4,
-    0
-   ],
-   "killer": {
-    "index": 0,
-    "name": "Étienne",
-    "gender": "m"
-   },
-   "clues": [
-    "Bastien se trouvait juste à côté de Maud.",
-    "Camille se trouvait juste à côté de Bastien.",
-    "Bastien était à l'ouest d’Inès.",
-    "Étienne était à l'est d’Inès.",
-    "Bastien était à l'est de Maud.",
-    "Il y avait exactement 1 personne dans la Bibliothèque."
-   ],
-   "story": "Le corps de le notaire Vasseur a été retrouvé dans le Salon. 6 invités se trouvaient dans la maison cette nuit-là, chacun dans une pièce différente des autres sur sa rangée et sa colonne. Une seule personne se trouvait dans la pièce du crime.",
-   "number": 5
-  },
-  {
-   "id": "moyen-6099",
-   "size": 6,
-   "difficulty": "Moyen",
-   "rooms": [
-    {
-     "name": "Atelier",
-     "loc": "dans l'Atelier"
-    },
-    {
-     "name": "Cave",
-     "loc": "dans la Cave"
-    },
-    {
-     "name": "Chambre",
-     "loc": "dans la Chambre"
-    },
-    {
-     "name": "Grenier",
-     "loc": "dans le Grenier"
-    },
-    {
-     "name": "Hall",
-     "loc": "dans le Hall"
-    },
-    {
-     "name": "Véranda",
-     "loc": "dans la Véranda"
-    }
-   ],
-   "cells": [
-    [
-     3,
-     2,
-     2,
-     2,
-     2,
-     2
-    ],
-    [
-     3,
-     2,
-     2,
-     2,
-     2,
-     2
-    ],
-    [
-     4,
-     4,
-     4,
-     4,
-     4,
-     0
-    ],
-    [
-     5,
-     1,
-     1,
-     4,
-     4,
-     0
-    ],
-    [
-     5,
-     1,
-     1,
-     0,
-     0,
-     0
-    ],
-    [
-     5,
-     5,
-     1,
-     0,
-     0,
-     0
-    ]
-   ],
-   "suspects": [
-    {
-     "name": "Julien",
-     "gender": "m",
-     "initial": "J"
-    },
-    {
-     "name": "Roxane",
-     "gender": "f",
-     "initial": "R"
-    },
-    {
-     "name": "Marc",
-     "gender": "m",
-     "initial": "M"
-    },
-    {
-     "name": "Sofia",
-     "gender": "f",
-     "initial": "S"
-    },
-    {
-     "name": "Nadia",
-     "gender": "f",
-     "initial": "N"
-    },
-    {
-     "name": "Inès",
-     "gender": "f",
-     "initial": "I"
-    }
-   ],
-   "victim": {
-    "name": "Monsieur Delaunay",
-    "label": "Hall",
-    "loc": "dans le Hall",
-    "cell": [
-     3,
-     3
     ],
     "room": 4
    },
    "solution": [
-    4,
-    2,
-    0,
-    1,
-    3,
-    5
+    [
+     5,
+     5
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     0
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     0,
+     3
+    ],
+    [
+     4,
+     2
+    ]
    ],
    "killer": {
-    "index": 2,
-    "name": "Marc",
-    "gender": "m"
+    "index": 0,
+    "name": "Maud",
+    "gender": "f"
    },
    "clues": [
-    "Marc se trouvait juste à côté de Sofia.",
-    "Marc était à l'ouest de Sofia.",
-    "Julien était à l'est de Roxane.",
-    "Julien était à l'ouest d’Inès.",
-    "Roxane était à l'est de Marc.",
-    "Julien n'était pas juste à côté de Roxane."
+    "Inès se trouvait dans la Salle à manger.",
+    "Inès se trouvait juste à côté de Théo.",
+    "Théo se trouvait sur la rangée la plus au nord.",
+    "Karim se trouvait sur la colonne la plus à l'ouest.",
+    "Bastien se trouvait dans le Grenier.",
+    "Maud était au sud de Bastien.",
+    "Camille n'était pas juste à côté de Bastien."
    ],
-   "story": "Le corps de Monsieur Delaunay a été retrouvé dans le Hall. 6 invités se trouvaient dans la maison cette nuit-là, chacun dans une pièce différente des autres sur sa rangée et sa colonne. Une seule personne se trouvait dans la pièce du crime.",
-   "number": 6
+   "story": "Le corps de Madame Le Goff a été retrouvé dans la Chambre. 6 invités se trouvaient dans la maison cette nuit-là, jamais deux sur la même rangée ni sur la même colonne. Une seule personne se trouvait dans la pièce du crime.",
+   "validPlacements": 1,
+   "possibleKillers": [
+    "Maud"
+   ],
+   "number": 3
   },
   {
-   "id": "moyen-6194",
+   "id": "facile-6291",
    "size": 6,
-   "difficulty": "Moyen",
+   "difficulty": "Facile",
    "rooms": [
     {
-     "name": "Grenier",
-     "loc": "dans le Grenier"
+     "name": "Chambre",
+     "loc": "dans la Chambre"
     },
     {
      "name": "Salle à manger",
      "loc": "dans la Salle à manger"
     },
     {
-     "name": "Hall",
-     "loc": "dans le Hall"
+     "name": "Salon",
+     "loc": "dans le Salon"
     },
     {
-     "name": "Cuisine",
-     "loc": "dans la Cuisine"
-    },
-    {
-     "name": "Chambre",
-     "loc": "dans la Chambre"
-    },
-    {
-     "name": "Bureau",
-     "loc": "dans le Bureau"
-    }
-   ],
-   "cells": [
-    [
-     2,
-     2,
-     2,
-     2,
-     1,
-     1
-    ],
-    [
-     5,
-     2,
-     2,
-     2,
-     1,
-     1
-    ],
-    [
-     5,
-     5,
-     2,
-     2,
-     3,
-     3
-    ],
-    [
-     5,
-     5,
-     5,
-     5,
-     5,
-     3
-    ],
-    [
-     0,
-     5,
-     0,
-     0,
-     0,
-     4
-    ],
-    [
-     0,
-     0,
-     0,
-     0,
-     4,
-     4
-    ]
-   ],
-   "suspects": [
-    {
-     "name": "Maud",
-     "gender": "f",
-     "initial": "M"
-    },
-    {
-     "name": "Camille",
-     "gender": "f",
-     "initial": "C"
-    },
-    {
-     "name": "Karim",
-     "gender": "m",
-     "initial": "K"
-    },
-    {
-     "name": "Inès",
-     "gender": "f",
-     "initial": "I"
-    },
-    {
-     "name": "Théo",
-     "gender": "m",
-     "initial": "T"
-    },
-    {
-     "name": "Bastien",
-     "gender": "m",
-     "initial": "B"
-    }
-   ],
-   "victim": {
-    "name": "Madame Rousseau",
-    "label": "Grenier",
-    "loc": "dans le Grenier",
-    "cell": [
-     4,
-     0
-    ],
-    "room": 0
-   },
-   "solution": [
-    3,
-    4,
-    1,
-    0,
-    2,
-    5
-   ],
-   "killer": {
-    "index": 4,
-    "name": "Théo",
-    "gender": "m"
-   },
-   "clues": [
-    "Karim se trouvait juste à côté d’Inès.",
-    "Maud se trouvait juste à côté de Camille.",
-    "Maud était à l'est de Théo.",
-    "Maud était à l'ouest de Camille.",
-    "Inès était à l'ouest de Théo.",
-    "Il y avait exactement 1 personne dans la Salle à manger.",
-    "Inès n'était pas juste à côté de Théo."
-   ],
-   "story": "Le corps de Madame Rousseau a été retrouvé dans le Grenier. 6 invités se trouvaient dans la maison cette nuit-là, chacun dans une pièce différente des autres sur sa rangée et sa colonne. Une seule personne se trouvait dans la pièce du crime.",
-   "number": 7
-  },
-  {
-   "id": "moyen-6295",
-   "size": 6,
-   "difficulty": "Moyen",
-   "rooms": [
-    {
-     "name": "Atelier",
-     "loc": "dans l'Atelier"
-    },
-    {
-     "name": "Cuisine",
-     "loc": "dans la Cuisine"
+     "name": "Serre",
+     "loc": "dans la Serre"
     },
     {
      "name": "Véranda",
@@ -944,587 +536,68 @@
     {
      "name": "Bibliothèque",
      "loc": "dans la Bibliothèque"
-    },
-    {
-     "name": "Hall",
-     "loc": "dans le Hall"
-    },
-    {
-     "name": "Cave",
-     "loc": "dans la Cave"
     }
    ],
    "cells": [
     [
-     0,
-     0,
-     0,
+     5,
+     5,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     5,
+     3,
+     3,
+     1,
+     4,
+     4
+    ],
+    [
+     5,
+     3,
+     3,
      0,
      4,
      4
     ],
     [
-     0,
-     2,
-     2,
-     2,
-     4,
-     5
-    ],
-    [
-     0,
-     2,
-     2,
-     2,
      5,
-     5
-    ],
-    [
-     3,
-     3,
-     3,
-     1,
-     1,
-     1
-    ],
-    [
-     3,
-     3,
-     3,
-     1,
-     1,
-     1
-    ],
-    [
-     3,
-     3,
-     3,
-     1,
-     1,
-     1
-    ]
-   ],
-   "suspects": [
-    {
-     "name": "Victor",
-     "gender": "m",
-     "initial": "V"
-    },
-    {
-     "name": "Camille",
-     "gender": "f",
-     "initial": "C"
-    },
-    {
-     "name": "Hélène",
-     "gender": "f",
-     "initial": "H"
-    },
-    {
-     "name": "Inès",
-     "gender": "f",
-     "initial": "I"
-    },
-    {
-     "name": "Julien",
-     "gender": "m",
-     "initial": "J"
-    },
-    {
-     "name": "Karim",
-     "gender": "m",
-     "initial": "K"
-    }
-   ],
-   "victim": {
-    "name": "Monsieur Aubert",
-    "label": "Cuisine",
-    "loc": "dans la Cuisine",
-    "cell": [
-     5,
-     5
-    ],
-    "room": 1
-   },
-   "solution": [
-    3,
-    5,
-    2,
-    1,
-    4,
-    0
-   ],
-   "killer": {
-    "index": 4,
-    "name": "Julien",
-    "gender": "m"
-   },
-   "clues": [
-    "Camille se trouvait dans la Cave.",
-    "Victor était à l'est d’Hélène.",
-    "Inès était à l'est de Karim.",
-    "Hélène était à l'est d’Inès.",
-    "Victor n'était pas dans le Hall."
-   ],
-   "story": "Le corps de Monsieur Aubert a été retrouvé dans la Cuisine. 6 invités se trouvaient dans la maison cette nuit-là, chacun dans une pièce différente des autres sur sa rangée et sa colonne. Une seule personne se trouvait dans la pièce du crime.",
-   "number": 8
-  },
-  {
-   "id": "difficile-7002",
-   "size": 7,
-   "difficulty": "Difficile",
-   "rooms": [
-    {
-     "name": "Cave",
-     "loc": "dans la Cave"
-    },
-    {
-     "name": "Chambre",
-     "loc": "dans la Chambre"
-    },
-    {
-     "name": "Salon",
-     "loc": "dans le Salon"
-    },
-    {
-     "name": "Cuisine",
-     "loc": "dans la Cuisine"
-    },
-    {
-     "name": "Salle à manger",
-     "loc": "dans la Salle à manger"
-    },
-    {
-     "name": "Serre",
-     "loc": "dans la Serre"
-    }
-   ],
-   "cells": [
-    [
-     5,
-     5,
-     1,
-     1,
-     1,
-     1,
-     2
-    ],
-    [
-     5,
-     5,
-     1,
-     1,
-     1,
-     1,
-     2
-    ],
-    [
-     5,
-     5,
-     5,
-     1,
-     2,
-     2,
-     2
-    ],
-    [
-     5,
-     5,
-     5,
-     2,
-     2,
-     2,
-     2
-    ],
-    [
-     4,
-     4,
-     4,
      3,
      3,
      0,
+     4,
+     4
+    ],
+    [
+     5,
+     2,
+     2,
+     0,
+     4,
      0
     ],
     [
-     4,
-     4,
-     4,
-     3,
-     3,
+     2,
+     2,
+     2,
      0,
-     0
-    ],
-    [
-     4,
-     3,
-     3,
-     3,
-     3,
      0,
      0
     ]
    ],
    "suspects": [
-    {
-     "name": "Bastien",
-     "gender": "m",
-     "initial": "B"
-    },
-    {
-     "name": "Nadia",
-     "gender": "f",
-     "initial": "N"
-    },
-    {
-     "name": "Julien",
-     "gender": "m",
-     "initial": "J"
-    },
     {
      "name": "Maud",
      "gender": "f",
      "initial": "M"
-    },
-    {
-     "name": "Marc",
-     "gender": "m",
-     "initial": "M"
-    },
-    {
-     "name": "Hélène",
-     "gender": "f",
-     "initial": "H"
-    },
-    {
-     "name": "Lucie",
-     "gender": "f",
-     "initial": "L"
-    }
-   ],
-   "victim": {
-    "name": "le notaire Vasseur",
-    "label": "Cave",
-    "loc": "dans la Cave",
-    "cell": [
-     6,
-     6
-    ],
-    "room": 0
-   },
-   "solution": [
-    4,
-    3,
-    5,
-    2,
-    6,
-    0,
-    1
-   ],
-   "killer": {
-    "index": 4,
-    "name": "Marc",
-    "gender": "m"
-   },
-   "clues": [
-    "Hélène se trouvait juste à côté de Lucie.",
-    "Nadia était à l'est de Maud.",
-    "Maud était à l'est d’Hélène.",
-    "Nadia était à l'ouest de Julien.",
-    "Julien était à l'ouest de Marc.",
-    "Il y avait exactement 1 personne dans la Salle à manger.",
-    "Nadia n'était pas juste à côté de Julien."
-   ],
-   "story": "Le corps de le notaire Vasseur a été retrouvé dans la Cave. 7 invités se trouvaient dans la maison cette nuit-là, chacun dans une pièce différente des autres sur sa rangée et sa colonne. Une seule personne se trouvait dans la pièce du crime.",
-   "number": 9
-  },
-  {
-   "id": "difficile-7105",
-   "size": 7,
-   "difficulty": "Difficile",
-   "rooms": [
-    {
-     "name": "Salle à manger",
-     "loc": "dans la Salle à manger"
-    },
-    {
-     "name": "Hall",
-     "loc": "dans le Hall"
-    },
-    {
-     "name": "Chambre",
-     "loc": "dans la Chambre"
-    },
-    {
-     "name": "Bureau",
-     "loc": "dans le Bureau"
-    },
-    {
-     "name": "Atelier",
-     "loc": "dans l'Atelier"
-    },
-    {
-     "name": "Salon",
-     "loc": "dans le Salon"
-    }
-   ],
-   "cells": [
-    [
-     1,
-     1,
-     1,
-     1,
-     1,
-     1,
-     1
-    ],
-    [
-     2,
-     2,
-     5,
-     5,
-     5,
-     5,
-     1
-    ],
-    [
-     4,
-     2,
-     5,
-     5,
-     0,
-     5,
-     5
-    ],
-    [
-     4,
-     2,
-     2,
-     2,
-     0,
-     0,
-     0
-    ],
-    [
-     4,
-     4,
-     0,
-     0,
-     0,
-     3,
-     0
-    ],
-    [
-     4,
-     4,
-     3,
-     3,
-     3,
-     3,
-     3
-    ],
-    [
-     4,
-     4,
-     3,
-     3,
-     3,
-     3,
-     3
-    ]
-   ],
-   "suspects": [
-    {
-     "name": "Étienne",
-     "gender": "m",
-     "initial": "É"
-    },
-    {
-     "name": "Camille",
-     "gender": "f",
-     "initial": "C"
-    },
-    {
-     "name": "Théo",
-     "gender": "m",
-     "initial": "T"
-    },
-    {
-     "name": "Roxane",
-     "gender": "f",
-     "initial": "R"
     },
     {
      "name": "Anaïs",
      "gender": "f",
      "initial": "A"
-    },
-    {
-     "name": "Hélène",
-     "gender": "f",
-     "initial": "H"
-    },
-    {
-     "name": "Lucie",
-     "gender": "f",
-     "initial": "L"
-    }
-   ],
-   "victim": {
-    "name": "le notaire Vasseur",
-    "label": "Hall",
-    "loc": "dans le Hall",
-    "cell": [
-     0,
-     0
-    ],
-    "room": 1
-   },
-   "solution": [
-    6,
-    2,
-    5,
-    1,
-    0,
-    4,
-    3
-   ],
-   "killer": {
-    "index": 0,
-    "name": "Étienne",
-    "gender": "m"
-   },
-   "clues": [
-    "Roxane se trouvait juste à côté d’Anaïs.",
-    "Camille était à l'est d’Anaïs.",
-    "Camille était à l'ouest de Lucie.",
-    "Théo était à l'est d’Hélène.",
-    "Étienne était à l'est de Théo.",
-    "Hélène était à l'est de Lucie.",
-    "Il y avait exactement 1 personne dans l'Atelier."
-   ],
-   "story": "Le corps de le notaire Vasseur a été retrouvé dans le Hall. 7 invités se trouvaient dans la maison cette nuit-là, chacun dans une pièce différente des autres sur sa rangée et sa colonne. Une seule personne se trouvait dans la pièce du crime.",
-   "number": 10
-  },
-  {
-   "id": "difficile-7198",
-   "size": 7,
-   "difficulty": "Difficile",
-   "rooms": [
-    {
-     "name": "Véranda",
-     "loc": "dans la Véranda"
-    },
-    {
-     "name": "Salon",
-     "loc": "dans le Salon"
-    },
-    {
-     "name": "Salle à manger",
-     "loc": "dans la Salle à manger"
-    },
-    {
-     "name": "Serre",
-     "loc": "dans la Serre"
-    },
-    {
-     "name": "Bibliothèque",
-     "loc": "dans la Bibliothèque"
-    },
-    {
-     "name": "Bureau",
-     "loc": "dans le Bureau"
-    }
-   ],
-   "cells": [
-    [
-     2,
-     2,
-     2,
-     5,
-     5,
-     5,
-     5
-    ],
-    [
-     2,
-     2,
-     2,
-     5,
-     5,
-     5,
-     3
-    ],
-    [
-     2,
-     2,
-     0,
-     5,
-     5,
-     3,
-     3
-    ],
-    [
-     0,
-     0,
-     0,
-     3,
-     3,
-     3,
-     3
-    ],
-    [
-     4,
-     0,
-     0,
-     0,
-     0,
-     3,
-     1
-    ],
-    [
-     4,
-     4,
-     0,
-     4,
-     4,
-     1,
-     1
-    ],
-    [
-     4,
-     4,
-     4,
-     4,
-     1,
-     1,
-     1
-    ]
-   ],
-   "suspects": [
-    {
-     "name": "Maud",
-     "gender": "f",
-     "initial": "M"
-    },
-    {
-     "name": "Étienne",
-     "gender": "m",
-     "initial": "É"
-    },
-    {
-     "name": "Julien",
-     "gender": "m",
-     "initial": "J"
-    },
-    {
-     "name": "Marc",
-     "gender": "m",
-     "initial": "M"
-    },
-    {
-     "name": "Bastien",
-     "gender": "m",
-     "initial": "B"
     },
     {
      "name": "Sofia",
@@ -1532,52 +605,670 @@
      "initial": "S"
     },
     {
-     "name": "Victor",
+     "name": "Hélène",
+     "gender": "f",
+     "initial": "H"
+    },
+    {
+     "name": "Karim",
      "gender": "m",
-     "initial": "V"
+     "initial": "K"
+    },
+    {
+     "name": "Nadia",
+     "gender": "f",
+     "initial": "N"
     }
    ],
    "victim": {
-    "name": "l’antiquaire Molina",
-    "label": "Salle à manger",
-    "loc": "dans la Salle à manger",
+    "name": "Monsieur Aubert",
+    "label": "Chambre",
+    "loc": "dans la Chambre",
     "cell": [
+     2,
+     3
+    ],
+    "room": 0
+   },
+   "solution": [
+    [
+     4,
+     4
+    ],
+    [
+     5,
+     1
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     0,
+     2
+    ],
+    [
      2,
      0
     ],
-    "room": 2
+    [
+     1,
+     5
+    ]
+   ],
+   "killer": {
+    "index": 2,
+    "name": "Sofia",
+    "gender": "f"
+   },
+   "clues": [
+    "Hélène se trouvait dans la Salle à manger.",
+    "Personne n'était dans la Serre.",
+    "Maud se trouvait dans la Véranda.",
+    "Hélène était à l'est de Karim.",
+    "Karim était au nord de Maud.",
+    "Sofia était au nord de Maud.",
+    "Karim était au sud de Nadia."
+   ],
+   "story": "Le corps de Monsieur Aubert a été retrouvé dans la Chambre. 6 invités se trouvaient dans la maison cette nuit-là, jamais deux sur la même rangée ni sur la même colonne. Une seule personne se trouvait dans la pièce du crime.",
+   "validPlacements": 1,
+   "possibleKillers": [
+    "Sofia"
+   ],
+   "number": 4
+  },
+  {
+   "id": "moyen-7000",
+   "size": 7,
+   "difficulty": "Moyen",
+   "rooms": [
+    {
+     "name": "Cuisine",
+     "loc": "dans la Cuisine"
+    },
+    {
+     "name": "Grenier",
+     "loc": "dans le Grenier"
+    },
+    {
+     "name": "Bibliothèque",
+     "loc": "dans la Bibliothèque"
+    },
+    {
+     "name": "Atelier",
+     "loc": "dans l'Atelier"
+    },
+    {
+     "name": "Hall",
+     "loc": "dans le Hall"
+    },
+    {
+     "name": "Véranda",
+     "loc": "dans la Véranda"
+    }
+   ],
+   "cells": [
+    [
+     4,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3
+    ],
+    [
+     4,
+     4,
+     4,
+     5,
+     5,
+     5,
+     3
+    ],
+    [
+     4,
+     4,
+     5,
+     5,
+     2,
+     2,
+     3
+    ],
+    [
+     4,
+     5,
+     5,
+     5,
+     2,
+     2,
+     2
+    ],
+    [
+     4,
+     1,
+     1,
+     1,
+     0,
+     2,
+     2
+    ],
+    [
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     2
+    ],
+    [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   "suspects": [
+    {
+     "name": "Roxane",
+     "gender": "f",
+     "initial": "R"
+    },
+    {
+     "name": "Lucie",
+     "gender": "f",
+     "initial": "L"
+    },
+    {
+     "name": "Julien",
+     "gender": "m",
+     "initial": "J"
+    },
+    {
+     "name": "Camille",
+     "gender": "f",
+     "initial": "C"
+    },
+    {
+     "name": "Karim",
+     "gender": "m",
+     "initial": "K"
+    },
+    {
+     "name": "Marc",
+     "gender": "m",
+     "initial": "M"
+    },
+    {
+     "name": "Inès",
+     "gender": "f",
+     "initial": "I"
+    }
+   ],
+   "victim": {
+    "name": "Madame Rousseau",
+    "label": "Véranda",
+    "loc": "dans la Véranda",
+    "cell": [
+     3,
+     1
+    ],
+    "room": 5
    },
    "solution": [
-    6,
-    1,
-    5,
-    4,
-    0,
-    3,
-    2
+    [
+     5,
+     3
+    ],
+    [
+     0,
+     5
+    ],
+    [
+     6,
+     1
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     3,
+     0
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     4,
+     4
+    ]
+   ],
+   "killer": {
+    "index": 3,
+    "name": "Camille",
+    "gender": "f"
+   },
+   "clues": [
+    "Roxane et Inès étaient dans la même pièce.",
+    "Lucie et Marc étaient dans la même pièce.",
+    "Karim se trouvait sur la colonne la plus à l'ouest.",
+    "Roxane était à l'est de Camille.",
+    "Lucie était à l'est d’Inès.",
+    "Roxane était au nord de Julien.",
+    "Roxane était à l'ouest d’Inès.",
+    "Lucie était à l'ouest de Marc.",
+    "Camille était au nord de Karim."
+   ],
+   "story": "Le corps de Madame Rousseau a été retrouvé dans la Véranda. 7 invités se trouvaient dans la maison cette nuit-là, jamais deux sur la même rangée ni sur la même colonne. Une seule personne se trouvait dans la pièce du crime.",
+   "validPlacements": 1,
+   "possibleKillers": [
+    "Camille"
+   ],
+   "number": 5
+  },
+  {
+   "id": "moyen-7098",
+   "size": 7,
+   "difficulty": "Moyen",
+   "rooms": [
+    {
+     "name": "Bibliothèque",
+     "loc": "dans la Bibliothèque"
+    },
+    {
+     "name": "Bureau",
+     "loc": "dans le Bureau"
+    },
+    {
+     "name": "Véranda",
+     "loc": "dans la Véranda"
+    },
+    {
+     "name": "Cave",
+     "loc": "dans la Cave"
+    },
+    {
+     "name": "Chambre",
+     "loc": "dans la Chambre"
+    },
+    {
+     "name": "Serre",
+     "loc": "dans la Serre"
+    }
+   ],
+   "cells": [
+    [
+     3,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2
+    ],
+    [
+     3,
+     2,
+     2,
+     2,
+     2,
+     2,
+     4
+    ],
+    [
+     3,
+     3,
+     3,
+     4,
+     4,
+     4,
+     4
+    ],
+    [
+     3,
+     3,
+     3,
+     3,
+     3,
+     4,
+     4
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1
+    ],
+    [
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5
+    ]
+   ],
+   "suspects": [
+    {
+     "name": "Sofia",
+     "gender": "f",
+     "initial": "S"
+    },
+    {
+     "name": "Nadia",
+     "gender": "f",
+     "initial": "N"
+    },
+    {
+     "name": "Hélène",
+     "gender": "f",
+     "initial": "H"
+    },
+    {
+     "name": "Camille",
+     "gender": "f",
+     "initial": "C"
+    },
+    {
+     "name": "Karim",
+     "gender": "m",
+     "initial": "K"
+    },
+    {
+     "name": "Victor",
+     "gender": "m",
+     "initial": "V"
+    },
+    {
+     "name": "Bastien",
+     "gender": "m",
+     "initial": "B"
+    }
+   ],
+   "victim": {
+    "name": "Monsieur Delaunay",
+    "label": "Cave",
+    "loc": "dans la Cave",
+    "cell": [
+     0,
+     0
+    ],
+    "room": 3
+   },
+   "solution": [
+    [
+     2,
+     3
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     6,
+     5
+    ],
+    [
+     5,
+     0
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     0,
+     1
+    ]
    ],
    "killer": {
     "index": 1,
-    "name": "Étienne",
+    "name": "Nadia",
+    "gender": "f"
+   },
+   "clues": [
+    "Sofia se trouvait juste à côté de Nadia.",
+    "Sofia et Victor étaient dans la même pièce.",
+    "Camille se trouvait sur la colonne la plus à l'ouest.",
+    "Personne n'était dans le Bureau.",
+    "Sofia était à l'ouest de Nadia.",
+    "Sofia était au nord de Camille.",
+    "Nadia était à l'est de Bastien.",
+    "Victor était au nord de Sofia.",
+    "Bastien était au nord de Sofia.",
+    "Camille était au sud de Karim.",
+    "Camille n'était pas juste à côté de Karim."
+   ],
+   "story": "Le corps de Monsieur Delaunay a été retrouvé dans la Cave. 7 invités se trouvaient dans la maison cette nuit-là, jamais deux sur la même rangée ni sur la même colonne. Une seule personne se trouvait dans la pièce du crime.",
+   "validPlacements": 1,
+   "possibleKillers": [
+    "Nadia"
+   ],
+   "number": 6
+  },
+  {
+   "id": "moyen-7195",
+   "size": 7,
+   "difficulty": "Moyen",
+   "rooms": [
+    {
+     "name": "Hall",
+     "loc": "dans le Hall"
+    },
+    {
+     "name": "Salle à manger",
+     "loc": "dans la Salle à manger"
+    },
+    {
+     "name": "Serre",
+     "loc": "dans la Serre"
+    },
+    {
+     "name": "Salon",
+     "loc": "dans le Salon"
+    },
+    {
+     "name": "Grenier",
+     "loc": "dans le Grenier"
+    },
+    {
+     "name": "Véranda",
+     "loc": "dans la Véranda"
+    }
+   ],
+   "cells": [
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     2,
+     2
+    ],
+    [
+     3,
+     3,
+     3,
+     3,
+     2,
+     2,
+     5
+    ],
+    [
+     3,
+     3,
+     3,
+     2,
+     2,
+     2,
+     5
+    ],
+    [
+     0,
+     4,
+     4,
+     2,
+     5,
+     5,
+     5
+    ],
+    [
+     0,
+     0,
+     4,
+     4,
+     5,
+     5,
+     5
+    ],
+    [
+     0,
+     0,
+     4,
+     4,
+     4,
+     5,
+     5
+    ],
+    [
+     0,
+     0,
+     4,
+     4,
+     4,
+     4,
+     5
+    ]
+   ],
+   "suspects": [
+    {
+     "name": "Hélène",
+     "gender": "f",
+     "initial": "H"
+    },
+    {
+     "name": "Inès",
+     "gender": "f",
+     "initial": "I"
+    },
+    {
+     "name": "Maud",
+     "gender": "f",
+     "initial": "M"
+    },
+    {
+     "name": "Roxane",
+     "gender": "f",
+     "initial": "R"
+    },
+    {
+     "name": "Bastien",
+     "gender": "m",
+     "initial": "B"
+    },
+    {
+     "name": "Julien",
+     "gender": "m",
+     "initial": "J"
+    },
+    {
+     "name": "Théo",
+     "gender": "m",
+     "initial": "T"
+    }
+   ],
+   "victim": {
+    "name": "Monsieur Aubert",
+    "label": "Grenier",
+    "loc": "dans le Grenier",
+    "cell": [
+     6,
+     4
+    ],
+    "room": 4
+   },
+   "solution": [
+    [
+     4,
+     1
+    ],
+    [
+     1,
+     2
+    ],
+    [
+     0,
+     5
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     6,
+     3
+    ],
+    [
+     5,
+     0
+    ]
+   ],
+   "killer": {
+    "index": 5,
+    "name": "Julien",
     "gender": "m"
    },
    "clues": [
-    "Sofia se trouvait juste à côté de Victor.",
-    "Julien se trouvait juste à côté de Marc.",
-    "Étienne était à l'ouest de Sofia.",
-    "Julien était à l'est de Sofia.",
-    "Étienne était à l'est de Bastien.",
-    "Julien était à l'est de Marc.",
-    "Sofia était à l'est de Victor.",
-    "Maud était à l'est de Julien."
+    "Julien se trouvait sur la rangée la plus au sud.",
+    "Théo se trouvait sur la colonne la plus à l'ouest.",
+    "Bastien se trouvait sur la colonne la plus à l'est.",
+    "Personne n'était dans la Salle à manger.",
+    "Il y avait exactement 1 personne dans la Véranda.",
+    "Hélène était au nord de Théo.",
+    "Julien était à l'est d’Inès.",
+    "Bastien était au nord d’Hélène.",
+    "Inès était au nord de Roxane.",
+    "Bastien n'était pas dans la Serre."
    ],
-   "story": "Le corps de l’antiquaire Molina a été retrouvé dans la Salle à manger. 7 invités se trouvaient dans la maison cette nuit-là, chacun dans une pièce différente des autres sur sa rangée et sa colonne. Une seule personne se trouvait dans la pièce du crime.",
-   "number": 11
+   "story": "Le corps de Monsieur Aubert a été retrouvé dans le Grenier. 7 invités se trouvaient dans la maison cette nuit-là, jamais deux sur la même rangée ni sur la même colonne. Une seule personne se trouvait dans la pièce du crime.",
+   "validPlacements": 1,
+   "possibleKillers": [
+    "Julien"
+   ],
+   "number": 7
   },
   {
-   "id": "difficile-7291",
+   "id": "moyen-7291",
    "size": 7,
-   "difficulty": "Difficile",
+   "difficulty": "Moyen",
    "rooms": [
     {
      "name": "Bureau",
@@ -1707,23 +1398,44 @@
     }
    ],
    "victim": {
-    "name": "l’antiquaire Molina",
-    "label": "Bibliothèque",
-    "loc": "dans la Bibliothèque",
+    "name": "Monsieur Delaunay",
+    "label": "Véranda",
+    "loc": "dans la Véranda",
     "cell": [
-     5,
-     4
+     1,
+     0
     ],
-    "room": 3
+    "room": 5
    },
    "solution": [
-    2,
-    5,
-    6,
-    1,
-    3,
-    0,
-    4
+    [
+     2,
+     6
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     6,
+     4
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     0,
+     2
+    ],
+    [
+     5,
+     0
+    ]
    ],
    "killer": {
     "index": 6,
@@ -1731,14 +1443,925 @@
     "gender": "m"
    },
    "clues": [
-    "Hélène était à l'ouest de Camille.",
-    "Hélène était à l'est de Marc.",
-    "Camille était à l'ouest de Karim.",
-    "Marc était à l'est d’Anaïs.",
-    "Julien était à l'est de Karim.",
-    "Julien était à l'ouest de Roxane."
+    "Hélène se trouvait juste à côté de Julien.",
+    "Camille se trouvait dans la Cuisine.",
+    "Julien et Anaïs étaient dans la même pièce.",
+    "Hélène se trouvait sur la colonne la plus à l'est.",
+    "Marc se trouvait dans le Bureau.",
+    "Roxane se trouvait dans la Bibliothèque.",
+    "Karim était au nord de Roxane.",
+    "Camille était au nord de Karim."
    ],
-   "story": "Le corps de l’antiquaire Molina a été retrouvé dans la Bibliothèque. 7 invités se trouvaient dans la maison cette nuit-là, chacun dans une pièce différente des autres sur sa rangée et sa colonne. Une seule personne se trouvait dans la pièce du crime.",
+   "story": "Le corps de Monsieur Delaunay a été retrouvé dans la Véranda. 7 invités se trouvaient dans la maison cette nuit-là, jamais deux sur la même rangée ni sur la même colonne. Une seule personne se trouvait dans la pièce du crime.",
+   "validPlacements": 1,
+   "possibleKillers": [
+    "Karim"
+   ],
+   "number": 8
+  },
+  {
+   "id": "difficile-8000",
+   "size": 8,
+   "difficulty": "Difficile",
+   "rooms": [
+    {
+     "name": "Serre",
+     "loc": "dans la Serre"
+    },
+    {
+     "name": "Grenier",
+     "loc": "dans le Grenier"
+    },
+    {
+     "name": "Cuisine",
+     "loc": "dans la Cuisine"
+    },
+    {
+     "name": "Chambre",
+     "loc": "dans la Chambre"
+    },
+    {
+     "name": "Salle à manger",
+     "loc": "dans la Salle à manger"
+    },
+    {
+     "name": "Salon",
+     "loc": "dans le Salon"
+    },
+    {
+     "name": "Bureau",
+     "loc": "dans le Bureau"
+    }
+   ],
+   "cells": [
+    [
+     2,
+     2,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     2,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     2,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5
+    ],
+    [
+     2,
+     2,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5
+    ],
+    [
+     6,
+     6,
+     6,
+     6,
+     6,
+     0,
+     0,
+     0
+    ],
+    [
+     6,
+     6,
+     4,
+     4,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     3,
+     3,
+     4,
+     4,
+     4,
+     0,
+     0,
+     0
+    ],
+    [
+     3,
+     3,
+     4,
+     4,
+     4,
+     0,
+     0,
+     0
+    ]
+   ],
+   "suspects": [
+    {
+     "name": "Étienne",
+     "gender": "m",
+     "initial": "É"
+    },
+    {
+     "name": "Sofia",
+     "gender": "f",
+     "initial": "S"
+    },
+    {
+     "name": "Bastien",
+     "gender": "m",
+     "initial": "B"
+    },
+    {
+     "name": "Nadia",
+     "gender": "f",
+     "initial": "N"
+    },
+    {
+     "name": "Théo",
+     "gender": "m",
+     "initial": "T"
+    },
+    {
+     "name": "Julien",
+     "gender": "m",
+     "initial": "J"
+    },
+    {
+     "name": "Hélène",
+     "gender": "f",
+     "initial": "H"
+    },
+    {
+     "name": "Marc",
+     "gender": "m",
+     "initial": "M"
+    }
+   ],
+   "victim": {
+    "name": "le notaire Vasseur",
+    "label": "Cuisine",
+    "loc": "dans la Cuisine",
+    "cell": [
+     0,
+     0
+    ],
+    "room": 2
+   },
+   "solution": [
+    [
+     5,
+     1
+    ],
+    [
+     6,
+     5
+    ],
+    [
+     0,
+     3
+    ],
+    [
+     7,
+     4
+    ],
+    [
+     2,
+     7
+    ],
+    [
+     4,
+     6
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     1,
+     0
+    ]
+   ],
+   "killer": {
+    "index": 7,
+    "name": "Marc",
+    "gender": "m"
+   },
+   "clues": [
+    "Sofia se trouvait juste à côté de Nadia.",
+    "Sofia et Julien étaient dans la même pièce.",
+    "Théo et Hélène étaient dans la même pièce.",
+    "Nadia se trouvait sur la rangée la plus au sud.",
+    "Théo se trouvait sur la colonne la plus à l'est.",
+    "Étienne était à l'est de Marc.",
+    "Julien était au nord d’Étienne.",
+    "Bastien était au nord d’Hélène.",
+    "Théo était au nord d’Hélène.",
+    "Bastien était à l'est d’Hélène."
+   ],
+   "story": "Le corps de le notaire Vasseur a été retrouvé dans la Cuisine. 8 invités se trouvaient dans la maison cette nuit-là, jamais deux sur la même rangée ni sur la même colonne. Une seule personne se trouvait dans la pièce du crime.",
+   "validPlacements": 1,
+   "possibleKillers": [
+    "Marc"
+   ],
+   "number": 9
+  },
+  {
+   "id": "difficile-8097",
+   "size": 8,
+   "difficulty": "Difficile",
+   "rooms": [
+    {
+     "name": "Hall",
+     "loc": "dans le Hall"
+    },
+    {
+     "name": "Atelier",
+     "loc": "dans l'Atelier"
+    },
+    {
+     "name": "Serre",
+     "loc": "dans la Serre"
+    },
+    {
+     "name": "Bureau",
+     "loc": "dans le Bureau"
+    },
+    {
+     "name": "Chambre",
+     "loc": "dans la Chambre"
+    },
+    {
+     "name": "Véranda",
+     "loc": "dans la Véranda"
+    },
+    {
+     "name": "Grenier",
+     "loc": "dans le Grenier"
+    }
+   ],
+   "cells": [
+    [
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     4,
+     4
+    ],
+    [
+     1,
+     1,
+     1,
+     3,
+     3,
+     3,
+     4,
+     4
+    ],
+    [
+     1,
+     1,
+     1,
+     3,
+     3,
+     3,
+     3,
+     4
+    ],
+    [
+     1,
+     1,
+     0,
+     0,
+     3,
+     2,
+     2,
+     4
+    ],
+    [
+     1,
+     1,
+     1,
+     0,
+     0,
+     2,
+     2,
+     4
+    ],
+    [
+     1,
+     1,
+     1,
+     0,
+     0,
+     2,
+     2,
+     2
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     5,
+     5,
+     5,
+     2
+    ],
+    [
+     6,
+     6,
+     6,
+     5,
+     5,
+     5,
+     5,
+     5
+    ]
+   ],
+   "suspects": [
+    {
+     "name": "Marc",
+     "gender": "m",
+     "initial": "M"
+    },
+    {
+     "name": "Inès",
+     "gender": "f",
+     "initial": "I"
+    },
+    {
+     "name": "Maud",
+     "gender": "f",
+     "initial": "M"
+    },
+    {
+     "name": "Roxane",
+     "gender": "f",
+     "initial": "R"
+    },
+    {
+     "name": "Camille",
+     "gender": "f",
+     "initial": "C"
+    },
+    {
+     "name": "Anaïs",
+     "gender": "f",
+     "initial": "A"
+    },
+    {
+     "name": "Bastien",
+     "gender": "m",
+     "initial": "B"
+    },
+    {
+     "name": "Théo",
+     "gender": "m",
+     "initial": "T"
+    }
+   ],
+   "victim": {
+    "name": "l’antiquaire Molina",
+    "label": "Chambre",
+    "loc": "dans la Chambre",
+    "cell": [
+     3,
+     7
+    ],
+    "room": 4
+   },
+   "solution": [
+    [
+     6,
+     4
+    ],
+    [
+     2,
+     3
+    ],
+    [
+     5,
+     1
+    ],
+    [
+     1,
+     7
+    ],
+    [
+     0,
+     5
+    ],
+    [
+     4,
+     0
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     7,
+     2
+    ]
+   ],
+   "killer": {
+    "index": 3,
+    "name": "Roxane",
+    "gender": "f"
+   },
+   "clues": [
+    "Théo se trouvait dans le Grenier.",
+    "Maud se trouvait juste à côté d’Anaïs.",
+    "Roxane se trouvait sur la colonne la plus à l'est.",
+    "Bastien se trouvait dans la Serre.",
+    "Marc se trouvait dans la Véranda.",
+    "Anaïs se trouvait sur la colonne la plus à l'ouest.",
+    "Maud était au sud d’Anaïs.",
+    "Roxane était au sud de Camille.",
+    "Camille était à l'est de Marc.",
+    "Anaïs était au sud de Bastien.",
+    "Roxane n'était pas juste à côté de Bastien."
+   ],
+   "story": "Le corps de l’antiquaire Molina a été retrouvé dans la Chambre. 8 invités se trouvaient dans la maison cette nuit-là, jamais deux sur la même rangée ni sur la même colonne. Une seule personne se trouvait dans la pièce du crime.",
+   "validPlacements": 1,
+   "possibleKillers": [
+    "Roxane"
+   ],
+   "number": 10
+  },
+  {
+   "id": "difficile-8194",
+   "size": 8,
+   "difficulty": "Difficile",
+   "rooms": [
+    {
+     "name": "Salon",
+     "loc": "dans le Salon"
+    },
+    {
+     "name": "Salle à manger",
+     "loc": "dans la Salle à manger"
+    },
+    {
+     "name": "Bibliothèque",
+     "loc": "dans la Bibliothèque"
+    },
+    {
+     "name": "Cuisine",
+     "loc": "dans la Cuisine"
+    },
+    {
+     "name": "Atelier",
+     "loc": "dans l'Atelier"
+    },
+    {
+     "name": "Véranda",
+     "loc": "dans la Véranda"
+    },
+    {
+     "name": "Chambre",
+     "loc": "dans la Chambre"
+    }
+   ],
+   "cells": [
+    [
+     4,
+     4,
+     2,
+     2,
+     2,
+     2,
+     2,
+     5
+    ],
+    [
+     4,
+     4,
+     2,
+     2,
+     2,
+     2,
+     2,
+     5
+    ],
+    [
+     4,
+     4,
+     6,
+     2,
+     2,
+     5,
+     5,
+     5
+    ],
+    [
+     4,
+     4,
+     6,
+     5,
+     5,
+     5,
+     3,
+     3
+    ],
+    [
+     4,
+     1,
+     6,
+     5,
+     5,
+     5,
+     3,
+     3
+    ],
+    [
+     4,
+     1,
+     6,
+     6,
+     6,
+     6,
+     3,
+     3
+    ],
+    [
+     1,
+     1,
+     0,
+     6,
+     0,
+     3,
+     3,
+     3
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     3,
+     3
+    ]
+   ],
+   "suspects": [
+    {
+     "name": "Théo",
+     "gender": "m",
+     "initial": "T"
+    },
+    {
+     "name": "Victor",
+     "gender": "m",
+     "initial": "V"
+    },
+    {
+     "name": "Sofia",
+     "gender": "f",
+     "initial": "S"
+    },
+    {
+     "name": "Maud",
+     "gender": "f",
+     "initial": "M"
+    },
+    {
+     "name": "Karim",
+     "gender": "m",
+     "initial": "K"
+    },
+    {
+     "name": "Étienne",
+     "gender": "m",
+     "initial": "É"
+    },
+    {
+     "name": "Hélène",
+     "gender": "f",
+     "initial": "H"
+    },
+    {
+     "name": "Bastien",
+     "gender": "m",
+     "initial": "B"
+    }
+   ],
+   "victim": {
+    "name": "le notaire Vasseur",
+    "label": "Chambre",
+    "loc": "dans la Chambre",
+    "cell": [
+     5,
+     5
+    ],
+    "room": 6
+   },
+   "solution": [
+    [
+     2,
+     2
+    ],
+    [
+     1,
+     3
+    ],
+    [
+     0,
+     5
+    ],
+    [
+     6,
+     4
+    ],
+    [
+     7,
+     6
+    ],
+    [
+     3,
+     7
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     5,
+     0
+    ]
+   ],
+   "killer": {
+    "index": 0,
+    "name": "Théo",
+    "gender": "m"
+   },
+   "clues": [
+    "Hélène se trouvait juste à côté de Bastien.",
+    "Maud se trouvait dans le Salon.",
+    "Étienne se trouvait sur la colonne la plus à l'est.",
+    "Bastien se trouvait sur la colonne la plus à l'ouest.",
+    "Sofia se trouvait sur la rangée la plus au nord.",
+    "Il y avait exactement 2 personnes dans la Cuisine.",
+    "Théo était au sud de Victor.",
+    "Maud était au nord de Karim.",
+    "Victor était à l'ouest de Maud.",
+    "Hélène était au nord de Bastien.",
+    "Il y avait exactement 1 personne dans l'Atelier."
+   ],
+   "story": "Le corps de le notaire Vasseur a été retrouvé dans la Chambre. 8 invités se trouvaient dans la maison cette nuit-là, jamais deux sur la même rangée ni sur la même colonne. Une seule personne se trouvait dans la pièce du crime.",
+   "validPlacements": 1,
+   "possibleKillers": [
+    "Théo"
+   ],
+   "number": 11
+  },
+  {
+   "id": "difficile-8298",
+   "size": 8,
+   "difficulty": "Difficile",
+   "rooms": [
+    {
+     "name": "Cuisine",
+     "loc": "dans la Cuisine"
+    },
+    {
+     "name": "Bureau",
+     "loc": "dans le Bureau"
+    },
+    {
+     "name": "Atelier",
+     "loc": "dans l'Atelier"
+    },
+    {
+     "name": "Salon",
+     "loc": "dans le Salon"
+    },
+    {
+     "name": "Véranda",
+     "loc": "dans la Véranda"
+    },
+    {
+     "name": "Hall",
+     "loc": "dans le Hall"
+    },
+    {
+     "name": "Grenier",
+     "loc": "dans le Grenier"
+    }
+   ],
+   "cells": [
+    [
+     3,
+     3,
+     3,
+     4,
+     4,
+     4,
+     0,
+     0
+    ],
+    [
+     3,
+     3,
+     3,
+     4,
+     4,
+     4,
+     4,
+     0
+    ],
+    [
+     3,
+     3,
+     1,
+     1,
+     4,
+     4,
+     0,
+     0
+    ],
+    [
+     3,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0
+    ],
+    [
+     2,
+     2,
+     2,
+     1,
+     1,
+     6,
+     0,
+     0
+    ],
+    [
+     5,
+     2,
+     2,
+     2,
+     6,
+     6,
+     6,
+     0
+    ],
+    [
+     5,
+     5,
+     2,
+     6,
+     6,
+     6,
+     6,
+     0
+    ],
+    [
+     5,
+     5,
+     5,
+     5,
+     6,
+     6,
+     6,
+     6
+    ]
+   ],
+   "suspects": [
+    {
+     "name": "Hélène",
+     "gender": "f",
+     "initial": "H"
+    },
+    {
+     "name": "Roxane",
+     "gender": "f",
+     "initial": "R"
+    },
+    {
+     "name": "Marc",
+     "gender": "m",
+     "initial": "M"
+    },
+    {
+     "name": "Karim",
+     "gender": "m",
+     "initial": "K"
+    },
+    {
+     "name": "Anaïs",
+     "gender": "f",
+     "initial": "A"
+    },
+    {
+     "name": "Bastien",
+     "gender": "m",
+     "initial": "B"
+    },
+    {
+     "name": "Victor",
+     "gender": "m",
+     "initial": "V"
+    },
+    {
+     "name": "Maud",
+     "gender": "f",
+     "initial": "M"
+    }
+   ],
+   "victim": {
+    "name": "l’antiquaire Molina",
+    "label": "Véranda",
+    "loc": "dans la Véranda",
+    "cell": [
+     1,
+     3
+    ],
+    "room": 4
+   },
+   "solution": [
+    [
+     1,
+     4
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     5,
+     5
+    ],
+    [
+     6,
+     6
+    ],
+    [
+     0,
+     1
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     3,
+     0
+    ],
+    [
+     7,
+     7
+    ]
+   ],
+   "killer": {
+    "index": 0,
+    "name": "Hélène",
+    "gender": "f"
+   },
+   "clues": [
+    "Karim se trouvait juste à côté de Maud.",
+    "Marc se trouvait juste à côté de Karim.",
+    "Roxane et Bastien étaient dans la même pièce.",
+    "Anaïs et Victor étaient dans la même pièce.",
+    "Il y avait exactement 3 personnes dans le Grenier.",
+    "Personne n'était dans l'Atelier.",
+    "Bastien était au nord de Victor.",
+    "Anaïs était au nord d’Hélène.",
+    "Maud était à l'est de Karim."
+   ],
+   "story": "Le corps de l’antiquaire Molina a été retrouvé dans la Véranda. 8 invités se trouvaient dans la maison cette nuit-là, jamais deux sur la même rangée ni sur la même colonne. Une seule personne se trouvait dans la pièce du crime.",
+   "validPlacements": 1,
+   "possibleKillers": [
+    "Hélène"
+   ],
    "number": 12
   }
  ]

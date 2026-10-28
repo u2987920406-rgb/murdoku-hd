@@ -1,0 +1,20 @@
+{
+  "id": "./",
+  "name": "Clu&Do",
+  "short_name": "Clu&Do",
+  "description": "Affaires de déduction illustrées : placez les invités, trouvez qui est resté seul avec le corps.",
+  "lang": "fr",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4eee3",
+  "theme_color": "#f4eee3",
+  "categories": ["games"],
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

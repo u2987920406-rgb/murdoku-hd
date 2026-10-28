@@ -114,11 +114,12 @@ async function run() {
     // 3. Vérifier with mistakes: marks + tally visible with the board.
     const puzzle = cases[8];
     for (let r = 0; r < puzzle.size; r++) {
-      const col = r < 2 ? (puzzle.solution[r] + 1) % puzzle.size : puzzle.solution[r];
+      const [row, good] = puzzle.solution[r];
+      const col = r < 2 ? (good + 1) % puzzle.size : good;
       const [vr, vc] = puzzle.victim.cell;
-      if (vr === r && vc === col) continue;
+      if (vr === row && vc === col) continue;
       tap(doc, doc.querySelectorAll('#palette .suspect')[r]);
-      tap(doc, doc.querySelector(`.cell[data-row="${r}"][data-col="${col}"]`));
+      tap(doc, doc.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`));
     }
     tap(doc, doc.getElementById('btn-check'));
     await settle(frame);
@@ -193,7 +194,7 @@ async function run() {
     win.loadCase(8);
     for (let r = 0; r < puzzle.size; r++) {
       tap(doc, doc.querySelectorAll('#palette .suspect')[r]);
-      tap(doc, doc.querySelector(`.cell[data-row="${r}"][data-col="${puzzle.solution[r]}"]`));
+      tap(doc, doc.querySelector(`.cell[data-row="${puzzle.solution[r][0]}"][data-col="${puzzle.solution[r][1]}"]`));
     }
     tap(doc, doc.getElementById('btn-check'));
     await settle(frame);
