@@ -372,6 +372,19 @@ function clueWithDirection(text, puzzle) {
   return html;
 }
 
+// The clue card on its own: paging through the testimonies must not rebuild the
+// board (its SVG filters and the token animations replayed made the screen jump).
+function cluePanelHtml(puzzle) {
+  const total = puzzle.clues.length;
+  const lit = directionOf(puzzle.clues[view.clue]);
+  return `<div class="clue-head">
+      <button type="button" class="icon-btn" data-clue="-1" aria-label="Témoignage précédent" ${view.clue === 0 ? 'disabled' : ''}>${ICON.back}</button>
+      <div class="clue-count">Témoignage ${view.clue + 1} / ${total}${lit ? `<span class="dir-tag" data-dir="${lit.dir}">${lit.word}</span>` : ''}</div>
+      <button type="button" class="icon-btn" data-clue="1" aria-label="Témoignage suivant" ${view.clue === total - 1 ? 'disabled' : ''}>${ICON.next}</button>
+    </div>
+    <div class="clue-body"><p class="clue-text" id="clue-text">${clueWithDirection(puzzle.clues[view.clue], puzzle)}</p></div>`;
+}
+
 function renderJeu(puzzle) {
   const placement = placementOf(puzzle);
   const placed = placement.filter(Boolean).length;
@@ -383,14 +396,7 @@ function renderJeu(puzzle) {
     ${header({ back: `#/dossier/${puzzle.number}`, backLabel: 'Retour au dossier', eyebrow: `${placed} / ${puzzle.size} placés`, title: `Affaire n°${puzzle.number}` })}
     <div class="stage">
     ${boardHtml(puzzle, placement)}
-    <section class="clue-card" aria-label="Témoignages">
-      <div class="clue-head">
-        <button type="button" class="icon-btn" data-clue="-1" aria-label="Témoignage précédent" ${view.clue === 0 ? 'disabled' : ''}>${ICON.back}</button>
-        <div class="clue-count">Témoignage ${view.clue + 1} / ${total}${lit ? `<span class="dir-tag" data-dir="${lit.dir}">${lit.word}</span>` : ''}</div>
-        <button type="button" class="icon-btn" data-clue="1" aria-label="Témoignage suivant" ${view.clue === total - 1 ? 'disabled' : ''}>${ICON.next}</button>
-      </div>
-      <div class="clue-body"><p class="clue-text" id="clue-text">${clueWithDirection(puzzle.clues[view.clue], puzzle)}</p></div>
-    </section>
+    <section class="clue-card" id="clue-panel" aria-label="Témoignages">${cluePanelHtml(puzzle)}</section>
     </div>
     ${promptHtml(puzzle)}
     <div class="rail" role="group" aria-label="Invités">${railHtml(puzzle, placement)}</div>
@@ -456,10 +462,34 @@ function bindJeu(puzzle) {
   };
   const cancel = () => { resetUi(); render(); };
 
-  root.querySelectorAll('[data-clue]').forEach((button) => button.addEventListener('click', () => {
-    view.clue += Number(button.dataset.clue);
-    render();
-  }));
+  // Paging the testimonies repaints the clue card only: the board keeps its
+  // nodes, so nothing flashes and the scroll position never moves.
+  const stepClue = (delta) => {
+    const total = puzzle.clues.length;
+    const next = Math.min(Math.max(view.clue + delta, 0), total - 1);
+    if (next === view.clue) return;
+    view.clue = next;
+    const panel = $('#clue-panel', root);
+    panel.innerHTML = cluePanelHtml(puzzle);
+    bindClueArrows(panel);
+    const litNow = directionOf(puzzle.clues[view.clue]);
+    const compass = $('.compass', root);
+    if (compass) compass.classList.toggle('lit', Boolean(litNow));
+    const rose = $('.plan .rose', root);
+    if (rose && rose.parentNode) {
+      // Swap the rose for its new direction without touching the rest of the plan.
+      const holder = document.createElement('g');
+      holder.innerHTML = roseSvg(litNow);
+      rose.parentNode.replaceChild(holder.firstElementChild, rose);
+    }
+  };
+  const bindClueArrows = (scope) => {
+    scope.querySelectorAll('[data-clue]').forEach((button) => {
+      button.addEventListener('click', () => stepClue(Number(button.dataset.clue)));
+    });
+  };
+  bindClueArrows(root);
+
   menuButton.addEventListener('click', () => setMenu(menu.hidden));
   on('hint', () => {
     const s = placement.findIndex((slot) => !slot);
