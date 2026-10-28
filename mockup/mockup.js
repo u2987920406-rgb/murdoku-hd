@@ -40,7 +40,18 @@ const slug = (name) => name.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase
 const portrait = (name) => `../assets/portraits/${slug(name)}.svg`;
 const victimPhoto = (name) => `../assets/victims/${VICTIM_ART[name] || slug(name.split(' ').pop())}.svg`;
 const agree = (gender, word) => (gender === 'f' ? `${word}e` : word);
-const statusOf = (n) => STATUS[n] || 'decouvrir';
+// Solved cases are remembered in the browser, so the list and the dossier agree
+// with what the player actually finished.
+const SOLVED_KEY = 'cludoku.mock.solved';
+function readSolved() {
+  try { return new Set(JSON.parse(localStorage.getItem(SOLVED_KEY) || '[]')); } catch { return new Set(); }
+}
+function markSolved(n) {
+  const solved = readSolved();
+  solved.add(n);
+  try { localStorage.setItem(SOLVED_KEY, JSON.stringify([...solved])); } catch { /* private mode */ }
+}
+const statusOf = (n) => (readSolved().has(n) ? 'resolue' : STATUS[n] || 'decouvrir');
 const rulesOf = (n) => RULES[n] || STANDARD;
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -401,7 +412,7 @@ function renderJeu(puzzle) {
     ${promptHtml(puzzle)}
     <div class="rail" role="group" aria-label="Invités">${railHtml(puzzle, placement)}</div>
     <nav class="actions" aria-label="Actions">
-      <a class="btn primary" href="#/resultat/${puzzle.number}">Vérifier</a>
+      <button type="button" class="btn primary" data-action="check">Vérifier</button>
       <button type="button" class="btn" data-action="hint">Indice</button>
       <button type="button" class="btn icon" data-action="menu" aria-label="Plus d'actions" aria-expanded="false" aria-controls="more-menu">${ICON.more}</button>
       <div class="menu" id="more-menu" hidden>
@@ -440,6 +451,57 @@ function renderResultat(puzzle) {
 }
 
 // ------------------------------------------------------------- interactions
+// Real validation: the shared clue engine decides, not the stored solution.
+// A case is solved when every clue holds and one guest is alone with the body.
+function validate(puzzle) {
+  const placement = placementOf(puzzle);
+  const n = puzzle.size;
+  const pos = placement.map((slot) => (slot ? slot[0] * n + slot[1] : -1));
+  const empty = pos.filter((p) => p < 0).length;
+  if (empty) return { status: 'incomplete', empty };
+  const rules = [...window.Clues.parseCase(puzzle), window.Clues.victimRule(puzzle)];
+  const wrong = new Set();
+  let allOk = true;
+  for (const rule of rules) {
+    if (rule.test(pos)) continue;
+    allOk = false;
+    // A clue naming one or two guests accuses exactly them; a broken head-count
+    // names everybody, so it accuses nobody.
+    if (rule.who && rule.who.length <= 2) rule.who.forEach((s) => wrong.add(s));
+  }
+  return { status: allOk ? 'solved' : 'wrong', wrong: [...wrong] };
+}
+
+// Win sequence: portrait card, stamp, confetti, then the result screen.
+function playWin(puzzle) {
+  const culprit = puzzle.killer ? puzzle.suspects[puzzle.killer.index] : puzzle.suspects[0];
+  const [killerRow, killerCol] = puzzle.solution[puzzle.killer.index];
+  const overlay = document.createElement('div');
+  overlay.className = 'win';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-label', 'Affaire résolue');
+  overlay.innerHTML = `
+    <div class="win-card">
+      <div class="win-portrait"><img src="${portrait(culprit.name)}" alt=""><span class="win-stamp">Coupable</span></div>
+      <p class="win-eyebrow">Affaire résolue</p>
+      <p class="win-title">${esc(culprit.name)}, coupable</p>
+      <p class="win-detail">${agree(culprit.gender, 'Seul')} ${esc(roomAt(puzzle, killerRow, killerCol).loc)} avec ${esc(puzzle.victim.name)}.</p>
+    </div>`;
+  document.body.appendChild(overlay);
+  requestAnimationFrame(() => overlay.classList.add('on'));
+  if (reducedMotion()) return;
+  const colors = ['#8c2f39', '#c8a24a', '#1d6644', '#26506b', '#7a4a1e'];
+  for (let i = 0; i < 46; i++) {
+    const bit = document.createElement('i');
+    bit.className = 'confetti';
+    bit.style.left = `${Math.random() * 100}%`;
+    bit.style.background = colors[i % colors.length];
+    bit.style.animationDelay = `${Math.random() * 0.5}s`;
+    bit.style.animationDuration = `${1.4 + Math.random()}s`;
+    overlay.appendChild(bit);
+  }
+}
+
 function bindJeu(puzzle) {
   const root = $('#screen');
   const placement = placementOf(puzzle);
@@ -491,6 +553,34 @@ function bindJeu(puzzle) {
   bindClueArrows(root);
 
   menuButton.addEventListener('click', () => setMenu(menu.hidden));
+  on('check', () => {
+    const result = validate(puzzle);
+    if (result.status === 'incomplete') {
+      toast(`Il reste ${result.empty} invité${result.empty > 1 ? 's' : ''} à placer.`);
+      return;
+    }
+    if (result.status === 'wrong') {
+      root.querySelectorAll('.cell').forEach((cell) => {
+        const r = Number(cell.dataset.r);
+        const c = Number(cell.dataset.c);
+        const who = placement.findIndex((slot) => slot && slot[0] === r && slot[1] === c);
+        cell.classList.toggle('bad', who >= 0 && result.wrong.includes(who));
+      });
+      const board = $('.board', root);
+      board.classList.remove('shake');
+      void board.offsetWidth;
+      board.classList.add('shake');
+      toast(result.wrong.length
+        ? `${result.wrong.length} invité${result.wrong.length > 1 ? 's' : ''} mal placé${result.wrong.length > 1 ? 's' : ''} — les cases cerclées de rouge.`
+        : 'Un témoignage contredit la grille : reprenez les indices.');
+      return;
+    }
+    markSolved(puzzle.number);
+    playWin(puzzle);
+    const delay = reducedMotion() ? 400 : 1500;
+    setTimeout(() => { location.hash = `#/resultat/${puzzle.number}`; }, delay);
+  });
+
   on('hint', () => {
     const s = placement.findIndex((slot) => !slot);
     const who = puzzle.suspects[s < 0 ? 0 : s];
@@ -589,6 +679,8 @@ function parse() {
 }
 
 function render() {
+  // The win overlay belongs to the game screen: leaving it removes it.
+  document.querySelectorAll('.win').forEach((node) => node.remove());
   const { name, caseNo } = parse();
   const puzzle = cases[caseNo - 1];
   if (view.caseNo !== caseNo) { view.clue = 0; view.rail = 0; view.caseNo = caseNo; resetUi(); }
