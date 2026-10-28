@@ -227,12 +227,13 @@ a { color: inherit; }
 }
 
 /* ------------------------------------------------------------------ Jeu */
-.jeu { gap: 10px; }
-.jeu .bar { padding-bottom: 0; }
-/* Board and clue card share the space left by the header and the actions:
-   the board is square and as large as fits above a fixed-height clue card. */
+.jeu { gap: 6px; }
+.jeu .bar { min-height: 52px; padding: 4px 0 0; }
+/* Board and clue card share the space left by the header, the instruction
+   bar, the guest rail and the actions: the board is square and as large as
+   fits above a clue card of at least --clue-h. */
 .stage {
-  --clue-h: 148px;
+  --clue-h: 108px;
   --bleed: 24px;
   flex: 1 1 auto;
   min-height: 0;
@@ -240,13 +241,13 @@ a { color: inherit; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   container-type: size;
 }
 .board {
   flex: none;
   position: relative;
-  width: min(calc(100cqw - var(--bleed)), calc(100cqh - var(--clue-h) - 12px));
+  width: min(calc(100cqw - var(--bleed)), calc(100cqh - var(--clue-h) - 8px));
   aspect-ratio: 1;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(40, 26, 14, .2), 0 18px 30px -20px rgba(40, 26, 14, .7);
@@ -254,36 +255,156 @@ a { color: inherit; }
 /* 8×8 keeps 44 px cells on a 360 px phone by using the side margins. */
 .jeu[data-n="8"] .stage { --bleed: 0px; }
 .plan, .plan svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.cells { position: absolute; inset: calc(100% * 8 / (var(--n) * 100 + 16)); display: grid; grid-auto-rows: 1fr; }
+.cells, .compass-layer { position: absolute; inset: calc(100% * 8 / (var(--n) * 100 + 16)); }
+.cells { display: grid; grid-auto-rows: 1fr; }
 .cell { position: relative; display: grid; place-items: center; min-width: 0; padding: 0; border: 0; background: transparent; cursor: pointer; }
 .cell:hover { background: rgba(255, 252, 240, .3); }
 .cell.body { cursor: default; }
-.cell.body svg { width: 42%; }
-.token { display: block; width: 78%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: #fff; box-shadow: 0 0 0 2.5px #fff, 0 3px 8px rgba(40, 26, 14, .45); }
+.cell.body svg { position: relative; z-index: 1; width: 42%; }
+.token { position: relative; z-index: 1; display: block; width: 78%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: #fff; box-shadow: 0 0 0 2.5px #fff, 0 3px 8px rgba(40, 26, 14, .45); }
 .token img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Armed guest: a free cell wears a dashed ring with a plus; a swap cell (her
+   row or column is taken) stays veiled with a small ⇄ badge; every other cell
+   is veiled and neutral. Shapes differ, not only colours. */
+.cell.muted::before { content: ""; position: absolute; inset: 0; background: rgba(244, 238, 227, .55); }
+/* A reachable cell is an invitation, not an error: green and smaller. */
+.cell .spot { width: 62%; height: 62%; fill: rgba(255, 252, 246, .72); stroke: var(--ok); stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; animation: spot-in .5s ease-out both; }
+.cell .spot path { fill: none; stroke-width: 6.5; }
+/* A swap cell keeps a texture, not a badge: 20 gold badges on one board read as
+   noise, a faint hatch reads as "another option" and stays silent. */
+.cell .swap-badge { display: none; }
+.cell.swap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: repeating-linear-gradient(45deg, rgba(138, 92, 0, .26) 0 2px, transparent 2px 9px);
+  pointer-events: none;
+}
+/* Selected guest: viewfinder corners around the cell, dark ring on the token. */
+.cell.selected .token { box-shadow: 0 0 0 3px var(--ink), 0 0 0 5.5px #fff, 0 3px 8px rgba(40, 26, 14, .45); }
+.cell .frame { position: absolute; inset: 1px; z-index: 2; width: calc(100% - 2px); height: calc(100% - 2px); fill: none; stroke: var(--ink); stroke-width: 7; stroke-linecap: round; filter: drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 1.5px #fff); }
+/* Guest being moved: his old cell keeps a faded, dashed ghost. */
+.cell.ghost .token { opacity: .45; outline: 2.5px dashed var(--ink); outline-offset: 2px; }
+
+/* Compass: the rose lives in the plan SVG under the room labels; the letters
+   sit above the plan, under the tokens, one cell from the centre on grid
+   intersections, where no token can reach. The box is 2 cells plus one letter
+   so the letters stay inside it. */
+.compass-layer { pointer-events: none; }
+.compass { position: absolute; left: 50%; top: 50%; width: calc(200% / var(--n) + 26px); aspect-ratio: 1; transform: translate(-50%, -50%); }
+.rose .ring { fill: rgba(255, 252, 246, .3); stroke: rgba(31, 26, 22, .38); stroke-width: 2.5; }
+.rose .star { fill: rgba(31, 26, 22, .2); stroke: rgba(31, 26, 22, .36); stroke-width: 1.5; stroke-linejoin: round; }
+.rose .north { fill: rgba(138, 36, 51, .5); }
+.rose .arrow { fill: none; stroke: var(--accent); stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 2px rgba(255, 252, 246, .9)); }
+.mark {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 252, 246, .94);
+  color: var(--ink);
+  font: 700 16px/1 var(--sans);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 1.5px rgba(31, 26, 22, .3);
+}
+.mark.N { left: 50%; top: 13px; }
+.mark.S { left: 50%; top: calc(100% - 13px); }
+.mark.E { left: calc(100% - 13px); top: 50%; }
+.mark.O { left: 13px; top: 50%; }
+.rose.lit .star { opacity: .55; }
+.compass.lit .mark { color: var(--ink-soft); }
+/* Lit letter: same size (a token must still clear it), filled and ringed. */
+.compass.lit .mark.on { background: var(--accent); color: #fff; box-shadow: 0 0 0 3px rgba(255, 252, 246, .95), 0 0 0 4.5px var(--accent); }
 
 /* The clue card takes the height the board leaves (at least --clue-h). */
 .clue-card {
   display: flex;
   flex-direction: column;
   width: calc(100% - 2 * var(--pad));
-  height: max(var(--clue-h), calc(100cqh - min(calc(100cqw - var(--bleed)), calc(100cqh - var(--clue-h) - 12px)) - 12px));
-  padding: 6px 6px 12px;
+  height: max(var(--clue-h), calc(100cqh - min(calc(100cqw - var(--bleed)), calc(100cqh - var(--clue-h) - 8px)) - 8px));
+  padding: 4px 4px 8px;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: var(--card);
 }
 .clue-body { flex: 1 1 auto; display: grid; align-content: center; min-height: 0; }
 .clue-head { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; align-items: center; gap: 8px; }
-.clue-count { display: grid; justify-items: center; gap: 4px; font-size: 16px; font-weight: 700; color: var(--accent-deep); }
-.dots { display: flex; gap: 5px; }
-.dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
-.dots i.on { background: var(--accent); }
-.clue-text { margin: 6px 10px 0; font-size: 18px; text-align: center; }
+.clue-count { display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; color: var(--accent-deep); }
+.dir-tag { padding: 0 8px; border-radius: 999px; background: var(--accent); color: #fff; }
+.clue-text { margin: 2px 8px 0; font-size: 17px; line-height: 1.4; text-align: center; }
 .who { font-weight: 700; white-space: nowrap; }
 .who img { width: 26px; height: 26px; margin: 0 4px 0 2px; border-radius: 50%; vertical-align: -7px; box-shadow: 0 0 0 1.5px var(--line-strong); }
+/* The direction word wears the compass's lit colour and points the same way. */
+mark.dir { padding: 0 3px; border-radius: 6px; background: var(--accent-soft); color: var(--accent-deep); font-weight: 700; white-space: nowrap; box-shadow: inset 0 -2px 0 var(--accent); }
+mark.dir svg { width: 16px; height: 16px; margin-left: 2px; vertical-align: -2px; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+mark.dir[data-dir="N"] svg { transform: rotate(-90deg); }
+mark.dir[data-dir="S"] svg { transform: rotate(90deg); }
+mark.dir[data-dir="O"] svg { transform: rotate(180deg); }
 
-.actions { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 52px; gap: 8px; padding: 0 0 calc(14px + var(--safe-b)); }
+/* Instruction bar: fixed height, so arming never moves the board. */
+.prompt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 52px;
+  padding: 0 4px 0 10px;
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+}
+.prompt p { flex: 1 1 auto; min-width: 0; margin: 0; font-size: 16px; line-height: 1.4; }
+.prompt .icon-btn { flex: none; }
+.prompt img { width: 32px; height: 32px; border-radius: 50%; flex: none; }
+.prompt .hand { width: 26px; height: 26px; flex: none; fill: none; stroke: var(--ink-soft); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.prompt.armed { border: 2.5px solid var(--accent); background: var(--accent-soft); }
+.prompt.selected { border: 2px dashed var(--ink); }
+.prompt.swap { border: 2px dashed #8a5c00; background: #fcf4e1; }
+.btn.small { flex: none; min-height: 44px; padding: 0 12px; border-radius: 12px; font-size: 16px; }
+
+/* Guest rail: chips scroll sideways inside the rail, never the page. */
+.rail {
+  display: flex;
+  gap: 8px;
+  margin: 0 calc(-1 * var(--pad));
+  padding: 4px var(--pad) 5px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-padding: 0 var(--pad);
+}
+.rail::-webkit-scrollbar { display: none; }
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  height: 50px;
+  padding: 0 14px 0 3px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink);
+  font: 600 16px var(--sans);
+  cursor: pointer;
+}
+.chip .face { position: relative; width: 42px; height: 42px; flex: none; }
+.chip .face img { width: 42px; height: 42px; border-radius: 50%; display: block; }
+.chip .badge { position: absolute; right: -5px; bottom: -4px; width: 22px; height: 22px; padding: 3px; border-radius: 50%; fill: none; stroke: #fff; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; box-shadow: 0 0 0 2px var(--card); }
+/* Armed: thick solid ring + "poser" badge. Placed: ✓ badge. Selected: dark
+   border with a dashed outline + viewfinder badge. Returned: dashed amber + ↩. */
+.chip.armed { border: 3px solid var(--accent); background: var(--accent-soft); padding-left: 1.5px; box-shadow: 0 6px 14px -8px rgba(94, 20, 32, .8); }
+.chip.armed .badge { background: var(--accent); }
+.chip.placed { background: var(--card-2); }
+.chip.placed .badge { background: var(--ok); }
+.chip.selected { border: 2px solid var(--ink); outline: 2px dashed var(--ink); outline-offset: 2px; }
+.chip.selected .badge { background: var(--ink); }
+.chip.returned { border: 2px dashed #8a5c00; background: #fcf4e1; }
+.chip.returned .badge { background: #8a5c00; }
+
+.actions { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 52px; gap: 8px; padding: 0 0 calc(10px + var(--safe-b)); }
 .menu {
   position: absolute;
   right: 0;
@@ -330,20 +451,6 @@ a { color: inherit; }
 }
 .toast[hidden] { display: none; }
 
-.sheet-backdrop { position: fixed; inset: 0; display: flex; align-items: flex-end; justify-content: center; background: rgba(31, 26, 22, .45); z-index: 10; }
-.sheet-backdrop[hidden] { display: none; }
-.sheet { width: 100%; max-width: 560px; padding: 12px var(--pad) calc(18px + var(--safe-b)); border-radius: 22px 22px 0 0; background: var(--card); animation: sheet-in .24s ease-out; }
-.sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
-.sheet-head div { display: grid; }
-.sheet-head strong { font: 700 21px var(--serif); }
-.sheet-head span { color: var(--ink-soft); font-size: 16px; }
-.guests { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.guest { display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 6px 10px; border: 1.5px solid var(--line); border-radius: 14px; background: var(--card-2); color: var(--ink); font: 600 17px var(--sans); cursor: pointer; text-align: left; }
-.guest img { width: 44px; height: 44px; border-radius: 50%; flex: none; }
-.guest span { display: grid; line-height: 1.2; }
-.guest small { color: var(--ink-soft); font-size: 16px; font-weight: 400; }
-.guest.placed { border-style: dashed; background: var(--card); }
-
 /* ------------------------------------------------------------- Résultat */
 .verdict { align-items: center; justify-content: center; text-align: center; gap: 10px; }
 .culprit { position: relative; width: 228px; height: 210px; display: flex; justify-content: center; }
@@ -374,7 +481,7 @@ a { color: inherit; }
 /* ---------------------------------------------------------------- motion */
 .screen.enter .page { animation: page-in .26s ease-out; }
 @keyframes page-in { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
-@keyframes sheet-in { from { transform: translateY(40px); opacity: .4; } to { transform: none; opacity: 1; } }
+@keyframes spot-in { from { transform: scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
