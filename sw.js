@@ -3,7 +3,7 @@
 // the next load; static files stay cache-first. Bump VERSION when a shipped
 // file changes: the new worker re-caches everything, takes over at once
 // (skipWaiting + clients.claim) and deletes the previous cache.
-const VERSION = 'cludoku-v2';
+const VERSION = 'cludoku-v3';
 
 // Always try the network first for these: they change on deploy.
 const NETWORK_FIRST = /(^|\/)(index\.html)?(\?.*)?$|cases\.json$|manifest\.webmanifest$/;
@@ -54,6 +54,9 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
   const url = new URL(request.url);
+  // The design mockup is not part of the installed game: never cache it, so a
+  // redeploy is visible at once instead of being served from an old shell.
+  if (url.pathname.includes('/mockup/')) return;
   const networkFirst = request.mode === 'navigate' || NETWORK_FIRST.test(url.pathname);
   event.respondWith((async () => {
     const cache = await caches.open(VERSION);
