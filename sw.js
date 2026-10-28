@@ -1,8 +1,13 @@
-// Clu&doku service worker: cache-first app shell, so the game installs and plays
-// offline after the first visit. Bump VERSION whenever a shipped file changes:
-// the new worker re-caches everything, takes over at once (skipWaiting +
-// clients.claim) and deletes the previous cache.
-const VERSION = 'cludoku-v1';
+// Clu&doku service worker: installs the game and keeps it playable offline.
+// The HTML shell and the case data are network-first so a redeploy shows up on
+// the next load; static files stay cache-first. Bump VERSION when a shipped
+// file changes: the new worker re-caches everything, takes over at once
+// (skipWaiting + clients.claim) and deletes the previous cache.
+const VERSION = 'cludoku-v2';
+
+// Always try the network first for these: they change on deploy.
+const NETWORK_FIRST = /(^|\/)(index\.html)?(\?.*)?$|cases\.json$|manifest\.webmanifest$/;
+
 
 const SHELL = [
   './',
@@ -48,9 +53,23 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
+  const url = new URL(request.url);
+  const networkFirst = request.mode === 'navigate' || NETWORK_FIRST.test(url.pathname);
   event.respondWith((async () => {
     const cache = await caches.open(VERSION);
-    const cached = await cache.match(request, { ignoreSearch: request.mode === 'navigate' });
+    if (networkFirst) {
+      try {
+        const fresh = await fetch(request);
+        if (fresh.ok && fresh.type === 'basic') cache.put(request, fresh.clone());
+        return fresh;
+      } catch (error) {
+        const fallback = (await cache.match(request, { ignoreSearch: true })) ||
+          (request.mode === 'navigate' ? await cache.match('index.html') : null);
+        if (fallback) return fallback;
+        throw error;
+      }
+    }
+    const cached = await cache.match(request);
     if (cached) return cached;
     try {
       const response = await fetch(request);
