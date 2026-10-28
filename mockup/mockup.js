@@ -15,6 +15,11 @@ const VICTIM_ART = {
 // ------------------------------------------------------------- mock data
 // Progress shown on Accueil (cases 1–2 solved, case 3 in progress).
 const STATUS = { 1: 'resolue', 2: 'resolue', 3: 'encours' };
+// The "Reprendre" card follows the player: first case still to solve.
+const currentCaseNo = () => {
+  const pending = cases.find((c) => statusOf(c.number) !== 'resolue');
+  return (pending || cases[cases.length - 1]).number;
+};
 const CURRENT = 3;
 const PLACED_AT_START = { 3: 3 }; // guests already on the board in a case in progress
 
@@ -260,7 +265,7 @@ function placeCompass(root, puzzle) {
 // ------------------------------------------------------------------ screens
 function renderAccueil() {
   const solved = cases.filter((c) => statusOf(c.number) === 'resolue').length;
-  const current = cases[CURRENT - 1];
+  const current = cases[currentCaseNo() - 1];
   const placed = placementOf(current).filter(Boolean).length;
   const groups = ['Facile', 'Moyen', 'Difficile'].map((difficulty) => {
     const items = cases.filter((c) => c.difficulty === difficulty).map((c) => {
@@ -673,7 +678,7 @@ function setupVue(puzzle, vue) {
 // ------------------------------------------------------------------- router
 function parse() {
   const [, name = 'accueil', num, query = ''] = location.hash.match(/^#\/(\w+)(?:\/(\d+))?(?:\?(.*))?/) || [];
-  const caseNo = Math.min(Math.max(Number(num) || CURRENT, 1), cases.length);
+  const caseNo = Math.min(Math.max(Number(num) || currentCaseNo(), 1), cases.length);
   const vue = new URLSearchParams(query).get('vue');
   return { name: ['accueil', 'dossier', 'jeu', 'resultat'].includes(name) ? name : 'accueil', caseNo, vue };
 }
